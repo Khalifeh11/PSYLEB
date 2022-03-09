@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->string('occupation');
             $table->string('education');
             $table->tinyInteger('gender');
+            $table->tinyInteger('user_type');
             $table->rememberToken();
             $table->timestamps();
         });
