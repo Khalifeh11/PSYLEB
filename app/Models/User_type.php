@@ -11,4 +11,10 @@ class User_type extends Model
     protected $fillable = [
         'name',
     ];
+
+    // defining a relationship between usertypes and user
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
 }
