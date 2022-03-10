@@ -90,4 +90,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasOne(UserLocation::class);
     }
+
+    public function userLogs()
+    {
+        return $this->hasMany(UserLog::class, 'user_id', 'id');
+    }
 }
