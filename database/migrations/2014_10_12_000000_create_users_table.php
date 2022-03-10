@@ -24,9 +24,7 @@ class CreateUsersTable extends Migration
             $table->string('occupation');
             $table->string('education');
             $table->tinyInteger('gender');
-            $table->foreignId('user_type')
-            ->constrained('user_types')
-            ->onDelete('cascade'); 
+            $table->tinyInteger('user_type'); 
             $table->rememberToken();
             $table->timestamps();
         });
