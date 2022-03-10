@@ -66,12 +66,12 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-    public function ClientAppointment()
+    public function clientAppointment()
     {
         return $this->hasMany(Appointment::class, 'client_id', 'id');
     }
 
-    public function ProviderAppointment()
+    public function providerAppointment()
     {
         return $this->hasMany(Appointment::class, 'provider_id', 'id');
     }
@@ -84,5 +84,10 @@ class User extends Authenticatable implements JWTSubject
     public function messagesReceived()
     {
         return $this->hasMany(UserMessage::class, 'receiver_id', 'id');
+    }
+
+    public function userLocation()
+    {
+        return $this->hasOne(UserLocation::class);
     }
 }
