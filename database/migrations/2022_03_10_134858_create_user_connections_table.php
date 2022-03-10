@@ -21,7 +21,7 @@ class CreateUserConnectionsTable extends Migration
             $table->foreignId('user2_id')
             ->constrained("users")
             ->onDelete("cascade");
-            $table->boolean('is_pending')->default(0);
+            $table->boolean('is_pending')->default(1);
             $table->boolean('is_blocked')->default(0);
             $table->timestamps();
         });
