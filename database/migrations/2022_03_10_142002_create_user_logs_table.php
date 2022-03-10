@@ -15,7 +15,7 @@ class CreateUserLogsTable extends Migration
     {
         Schema::create('user_logs', function (Blueprint $table) {
             $table->id();
-            $table->tinyint('mood')->nullable();
+            $table->boolean('mood')->nullable();
             $table->text('notes')->nullable();
             $table->string('sleep')->nullable();
             $table->foreignId('user_id')
