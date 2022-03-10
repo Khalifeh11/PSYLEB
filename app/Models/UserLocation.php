@@ -10,8 +10,8 @@ class UserLocation extends Model
     use HasFactory;
 
     protected $fillable = [
-        'latitude',
-        'longitude',
+        'lat',
+        'lng',
         'city',
         'street',
         'building',
