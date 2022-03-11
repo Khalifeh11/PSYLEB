@@ -17,7 +17,9 @@ class DatabaseSeeder extends Seeder
         // \App\Models\UserLocation::factory(30)->create();
         // \App\Models\UserAppointment::factory(10)->create();
         // \App\Models\UserConnection::factory(10)->create();
-        \App\Models\UserMessage::factory(10)->create();
+        // \App\Models\UserMessage::factory(10)->create();
+        \App\Models\UserLog::factory(10)->create();
+
 
     }
 }
