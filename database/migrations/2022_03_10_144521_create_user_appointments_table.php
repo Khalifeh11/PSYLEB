@@ -17,7 +17,7 @@ class CreateUserAppointmentsTable extends Migration
             $table->id();
             $table->string('name');
             $table->date('date');
-            $table->boolean('is_pending');
+            $table->boolean('is_pending')->default(1);
             $table->foreignId('client_id')
             ->constrained("users")
             ->onDelete("cascade");
