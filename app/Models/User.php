@@ -65,6 +65,16 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
+    public function connections1()
+    {
+        return $this->hasMany(UserConnection::class, 'user_id1', 'id');
+    }
+
+    public function connections2()
+    {
+        return $this->hasMany(UserConnection::class, 'user_id2', 'id');
+    }
+
     public function clientAppointment()
     {
         return $this->hasMany(Appointment::class, 'client_id', 'id');
