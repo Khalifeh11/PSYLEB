@@ -18,4 +18,8 @@ class UserController extends Controller
     public function getUserAppointments(){
         return response()->json(array("Appointments" => auth()->user()->clientAppointments));
     }
+
+    public function getProviderAppointments(){
+        return response()->json(array("Appointments" => auth()->user()->providerAppointments));
+    }
 }
