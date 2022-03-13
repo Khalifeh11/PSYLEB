@@ -54,5 +54,6 @@ Route::group([
 ], function () {
     Route::post('/request', [AppointmentController::class, 'requestAppointment']);  
     Route::delete('/remove/{id}', [AppointmentController::class, 'removeAppointment']);
-    Route::get('/approve/{id}', [AppointmentController::class, 'approveAppointment']);   
+    Route::get('/approve/{id}', [AppointmentController::class, 'approveAppointment']);
+    Route::delete('/decline/{id}', [AppointmentController::class, 'declineAppointment']);      
 });
