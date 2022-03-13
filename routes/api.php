@@ -2,6 +2,10 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\LogsController;
+
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -21,4 +25,20 @@ Route::group([
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::get('/user-profile', [AuthController::class, 'userProfile']);    
+});
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'user'
+], function () {
+    // Route::post('/login', [AuthController::class, 'login']);
+    Route::get('/connections', [UserController::class, 'getUserConnections']);    
+});
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'logs'
+], function () {
+    Route::post('/addLog', [LogsController::class, 'addLog']);   
+    Route::delete('/removeLog', [LogsController::class, 'removeLog']);     
 });
