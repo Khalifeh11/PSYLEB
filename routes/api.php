@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LogsController;
+use App\Http\Controllers\AppointmentController;
+
 
 
 /*
@@ -41,4 +43,11 @@ Route::group([
 ], function () {
     Route::post('/addLog', [LogsController::class, 'addLog']);   
     Route::delete('/removeLog', [LogsController::class, 'removeLog']);     
+});
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'appointment'
+], function () {
+    Route::post('/request', [AppointmentController::class, 'requestAppointment']);   
 });
