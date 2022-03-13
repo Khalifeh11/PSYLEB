@@ -35,7 +35,8 @@ Route::group([
 ], function () {
     // Route::post('/login', [AuthController::class, 'login']);
     Route::get('/connections', [UserController::class, 'getUserConnections']);   
-    Route::get('/appointments', [UserController::class, 'getUserAppointments']);     
+    Route::get('/appointments', [UserController::class, 'getUserAppointments']);
+    Route::get('/provider-appointments', [UserController::class, 'getProviderAppointments']);       
 });
 
 Route::group([
