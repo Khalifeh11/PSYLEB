@@ -33,10 +33,10 @@ Route::group([
     'middleware' => 'api',
     'prefix' => 'user'
 ], function () {
-    // Route::post('/login', [AuthController::class, 'login']);
     Route::get('/connections', [UserController::class, 'getUserConnections']);   
     Route::get('/appointments', [UserController::class, 'getUserAppointments']);
     Route::get('/provider-appointments', [UserController::class, 'getProviderAppointments']);       
+    Route::get('/logs', [UserController::class, 'getMyLogs']); 
 });
 
 Route::group([
@@ -54,6 +54,4 @@ Route::group([
     Route::post('/request', [AppointmentController::class, 'requestAppointment']);  
     Route::delete('/remove/{id}', [AppointmentController::class, 'removeAppointment']);
     Route::get('/approve/{id}', [AppointmentController::class, 'approveAppointment']);   
-   
- 
 });
