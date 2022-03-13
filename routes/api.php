@@ -49,5 +49,9 @@ Route::group([
     'middleware' => 'api',
     'prefix' => 'appointment'
 ], function () {
-    Route::post('/request', [AppointmentController::class, 'requestAppointment']);   
+    Route::post('/request', [AppointmentController::class, 'requestAppointment']);  
+    Route::delete('/remove/{id}', [AppointmentController::class, 'removeAppointment']);
+    Route::get('/approve/{id}', [AppointmentController::class, 'approveAppointment']);   
+   
+ 
 });
