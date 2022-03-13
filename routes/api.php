@@ -34,7 +34,8 @@ Route::group([
     'prefix' => 'user'
 ], function () {
     // Route::post('/login', [AuthController::class, 'login']);
-    Route::get('/connections', [UserController::class, 'getUserConnections']);    
+    Route::get('/connections', [UserController::class, 'getUserConnections']);   
+    Route::get('/appointments', [UserController::class, 'getUserAppointments']);     
 });
 
 Route::group([
