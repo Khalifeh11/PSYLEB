@@ -24,7 +24,7 @@ class CreateUsersTable extends Migration
             $table->string('occupation')->nullable();
             $table->string('education')->nullable();
             $table->tinyInteger('gender')->nullable();
-            $table->tinyInteger('user_type'); 
+            $table->tinyInteger('user_type')->default(0); // fix with migrate fresh and seed again
             $table->rememberToken();
             $table->timestamps();
         });
