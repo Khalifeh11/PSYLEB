@@ -22,7 +22,7 @@ class UserAppointmentFactory extends Factory
         return [
             'name' => 'Appointment',
             'date' => $this->faker->date(),
-            'is_pending' => $this->faker->numbderBetween(0, 1),
+            'is_pending' => $this->faker->numberBetween(0, 1),
             'provider_id' =>$this->faker->unique()->randomElement($users),
             'client_id'=>$this->faker->unique()->randomElement($users),
             'location_id'=>$this->faker->unique()->randomElement($location),
