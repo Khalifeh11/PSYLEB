@@ -37,6 +37,7 @@ Route::group([
     Route::get('/appointments', [UserController::class, 'getUserAppointments']);
     Route::get('/provider-appointments', [UserController::class, 'getProviderAppointments']);       
     Route::get('/logs', [UserController::class, 'getMyLogs']); 
+    Route::get('/clientLogs/{id}', [UserController::class, 'getClientLogs']); 
 });
 
 Route::group([
