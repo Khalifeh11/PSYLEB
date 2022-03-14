@@ -29,7 +29,10 @@ class UserController extends Controller
 
     // getting appointments from client side
     public function getUserAppointments(){
-        return response()->json(array("Appointments" => auth()->user()->clientAppointments));
+        $user = Auth::user();
+        $appointments = $user->clientAppointments()->get();
+        return response()
+                    ->json(["appointments" => $appointments]);
     }
 
     // getting appointments from provider side
