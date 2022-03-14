@@ -18,10 +18,7 @@ use App\Http\Controllers\AppointmentController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::group([
-    'middleware' => 'api',
-    'prefix' => 'auth'
-], function ($router) {
+Route::group(['middleware' => 'api','prefix' => 'auth'], function ($router) {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/logout', [AuthController::class, 'logout']);
@@ -29,10 +26,7 @@ Route::group([
     Route::get('/user-profile', [AuthController::class, 'userProfile']);    
 });
 
-Route::group([
-    'middleware' => 'api',
-    'prefix' => 'user'
-], function () {
+Route::group(['middleware' => 'api','prefix' => 'user'], function () {
     Route::get('/connections', [UserController::class, 'getUserConnections']);   
     Route::get('/appointments', [UserController::class, 'getUserAppointments']);
     Route::get('/provider-appointments', [UserController::class, 'getProviderAppointments']);       
@@ -40,18 +34,12 @@ Route::group([
     Route::get('/clientLogs/{id}', [UserController::class, 'getClientLogs']); 
 });
 
-Route::group([
-    'middleware' => 'api',
-    'prefix' => 'logs'
-], function () {
+Route::group(['middleware' => 'api','prefix' => 'logs'], function () {
     Route::post('/addLog', [LogsController::class, 'addLog']);   
     Route::delete('/removeLog', [LogsController::class, 'removeLog']);     
 });
 
-Route::group([
-    'middleware' => 'api',
-    'prefix' => 'appointment'
-], function () {
+Route::group(['middleware' => 'api','prefix' => 'appointment'], function () {
     Route::post('/request', [AppointmentController::class, 'requestAppointment']);  
     Route::delete('/remove/{id}', [AppointmentController::class, 'removeAppointment']);
     Route::get('/approve/{id}', [AppointmentController::class, 'approveAppointment']);
