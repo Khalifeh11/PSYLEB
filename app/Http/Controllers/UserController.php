@@ -14,17 +14,21 @@ class UserController extends Controller
     // public function getUserConnections(){
     //     return response()->json(array("connections" => auth()->user()->connections()));
     // }
-    
     // getting logs from client side
     public function getMyLogs(){
-        return response()->json(array("logs" => auth()->user()->logs));
+        $user = Auth::user();
+        $logs = $user->logs()->get();
+        return response()
+                    ->json(["logs" => $logs]);
     }
 
     // getting client logs from provider side
     // have to add connection condition between them
     public function getClientLogs($id){
-        $user = User::find($id);
-        return response()->json(array("logs" => $user->logs));
+        $client = User::find($id);
+        $logs = $client->logs()->get();
+        return response()
+                    ->json(["logs" => $logs]);
     }
 
     // getting appointments from client side
@@ -37,6 +41,9 @@ class UserController extends Controller
 
     // getting appointments from provider side
     public function getProviderAppointments(){
-        return response()->json(array("Appointments" => auth()->user()->providerAppointments));
+        $user = Auth::user();
+        $appointments = $user->providerAppointments()->get();
+        return response()
+                    ->json(["Appointments" => $appointments]);
     }
 }
