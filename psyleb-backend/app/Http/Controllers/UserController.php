@@ -49,10 +49,14 @@ class UserController extends Controller
 
     public function SearchUsers($key){
         $search = '%' . $key . '%';
-        // $providers =  User::where('user_type', '=', '1');
-        $result = User::where('first_name', 'like', $search, 'or', 'last_name', 'like', $search)
-                      ->where('user_type', '=', '1')->get();
+        
+        $result = User::where(function($query) use ($search){            
+            $query->where('first_name', 'like', $search)
+                  ->orWhere('last_name', 'like', $search);
+                })->where('user_type', '=', 1)->get();
+                          
         return response()   
                 ->json(["providers" => $result]);
     }
+
 }

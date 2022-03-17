@@ -14,22 +14,24 @@ class AppointmentController extends Controller
 {
         public function requestAppointment(Request $request){
 
-            $now = date('Y-m-d');
-            $validator = Validator::make($request->all(), [
-                'name' => 'between:0,100|string',
-                'date' =>'date_format:Y-m-d|after_or_equal:'. $now,
-            ]);
-            if ($validator->fails()) {
-                return response()->json($validator->errors(), 422);
-        }else{
-            $Appointment = UserAppointment::create(array_merge($validator->validated(),["client_id" => auth()->user()->id], ["provider_id"=> $request->provider_id], ["location_id"=> $request->location_id]));
+            $valid = $this->appt_validation($request->all());
+            if ($valid->fails()) {
+                return response()->json($valid->errors(), 422);
+            }else{
+                    $appointment = new UserAppointment;
+                    $appointment->name = $request->name;
+                    $appointment->date = $request->date;
+                    $appointment->client_id = Auth::user()->id;
+                    $appointment->provider_id = $request->provider_id;
+                    $appointment->location_id = $request->location_id;
+                    $appointment->save();
 
-            return response()->json([
-                'message' => 'Appointment requested',
-                'appointment' => $Appointment,
-            ], 201);
-        }
-   
+                    
+                    return response()->json([
+                        'message' => 'Appointment requested',
+                        'appointment' => $appointment,
+                    ], 201);
+                }
     }
     // removing an appointment from client side
     public function removeAppointment($id){
@@ -85,5 +87,13 @@ class AppointmentController extends Controller
                 'message' => "This appointment doesn't belong to you"
             ], 401);
         }   
+    }
+
+    private function appt_validation(array $request){
+            $now = date('Y-m-d');
+            return Validator::make($request, [
+                'name' => 'between:0,100|string',
+                'date' =>'date_format:Y-m-d|after_or_equal:'. $now,
+            ]);
     }
 }
