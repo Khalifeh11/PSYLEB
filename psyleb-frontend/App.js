@@ -18,7 +18,7 @@ export default function App() {
       const data = await response.data;
       console.log(data);
     } catch (error) {
-      console.log("SIGNIN ERROR", error);
+      console.log("sign in error", error);
     }
   }
   return (
