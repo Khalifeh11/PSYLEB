@@ -1,9 +1,10 @@
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useState } from 'react';
 import axios from "axios";
 
-export default function Login() {
+export default function Login({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const loginFetch = async () => {
@@ -34,7 +35,7 @@ export default function Login() {
         onChangeText={(e) => setPassword(e)}
       />
       <Button title='login' onPress={loginFetch}/>
-      <Text>Don't have an account? Sign Up</Text>
+      <Text>Don't have an account? <Text onPress={() => navigation.navigate('Register')}>Sign Up</Text></Text>
     </View>
   );
 }
