@@ -2,11 +2,11 @@ import { View, Text, StyleSheet } from 'react-native'
 import React from 'react'
 import { Button } from 'react-native-paper'
 
-const PrimaryButton = ({ job }) => {
+const PrimaryButton = ({ job, text }) => {
   return (
     <View style={styles.button}>
         <Button mode='contained' color='#5DB075' onPress={job}>
-            <Text style={styles.buttonText}>Login</Text>
+            <Text style={styles.buttonText}>{text}</Text>
         </Button>
     </View>
   )
