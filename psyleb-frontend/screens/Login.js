@@ -1,12 +1,32 @@
-import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { StyleSheet, Text, View, Button, Image, Alert } from 'react-native';
+import { TextInput } from 'react-native-paper';
+// import { NavigationContainer } from '@react-navigation/native';
+// import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useState } from 'react';
 import axios from "axios";
+import Logo from '../components/Logo'
+import PrimaryButton from '../components/PrimaryButton';
+import PrimaryTextInput from '../components/PrimaryTextInput';
+// import { SvgUri, Svg } from 'react-native-svg';
+
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [status, setStatus] = useState('');
+
+  const handleEmail = (e) => {
+    setEmail(e)
+  }
+
+  const handlePassword = (e) => {
+    setPassword(e)
+  }
+
+  const navigate = () => {
+    navigation.navigate('Navigation')
+  }
+
   const loginFetch = async () => {
     const url = 'http://127.0.0.1:8000/api/auth/login';
     const user = {
@@ -17,6 +37,7 @@ export default function Login({ navigation }) {
     try {
       const response = await axios.post(url, user);
       const data = await response.data;
+      navigation.navigate('Navigation')
       console.log(data);
     } catch (error) {
       console.log("sign in error", error);
@@ -24,32 +45,28 @@ export default function Login({ navigation }) {
   }
   return (
     <View style={styles.container}>
-      <TextInput 
-        style={styles.textInput}
-        placeholder= 'email'
-        onChangeText={(e) => setEmail(e)}
-      />
-      <TextInput 
-        style={styles.textInput}
-        placeholder= 'password'
-        onChangeText={(e) => setPassword(e)}
-      />
-      <Button title='login' onPress={loginFetch}/>
-      <Text>Don't have an account? <Text onPress={() => navigation.navigate('Register')}>Sign Up</Text></Text>
+      <Logo />
+      <PrimaryTextInput label={'email'} changeText={handleEmail} isPassword={false}/>
+      <PrimaryTextInput label={'password'} changeText={handlePassword} isPassword={true}/>
+      <PrimaryButton job={navigate}/>
+      <Text style={styles.signupText}>Don't have an account? <Text onPress={() => navigation.navigate('Register')} style={styles.signup}>Sign Up</Text></Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  textInput: {
-    borderColor: 'black',
-    backgroundColor: 'green',
-    margin: 3,
+  image: {
+    width: 50,
+  },
+  signupText:{
+    marginTop: 10
+  },
+  signup : {
+    color: '#5DB075',
+    fontWeight: 'bold',
   }
 });
