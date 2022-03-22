@@ -4,7 +4,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Avatar } from "react-native-paper";
 import { MaterialIcons } from "@expo/vector-icons";
 
-
 const Profile = ({ navigation }) => {
   return (
     <SafeAreaView>
@@ -16,6 +15,9 @@ const Profile = ({ navigation }) => {
               source={require("../assets/profile.jpg")}
               style={styles.avatar}
             />
+          </View>
+          <View style={styles.logoutContainer}>
+            <Text style={styles.logout}>Logout</Text>
           </View>
         </View>
         <View style={styles.userContainer}>
@@ -68,11 +70,21 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: "rgba(91, 176, 117, 1)",
     height: 150,
-    marginTop: -50,
   },
   avatarContainer: {
     alignSelf: "center",
     marginTop: 60,
+  },
+
+  logoutContainer: {
+    alignSelf: "flex-end",
+    marginTop: -75,
+    marginRight: 10,
+  },
+  logout: {
+    fontWeight: "bold",
+    fontSize: 20,
+    color: "white",
   },
   usernameContainer: {
     alignItems: "center",
