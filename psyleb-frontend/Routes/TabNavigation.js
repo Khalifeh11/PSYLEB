@@ -1,11 +1,9 @@
-import { StyleSheet, Text, View } from "react-native";
 import * as React from "react";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import Health from "../screens/Health";
 import Chats from "../screens/Chats";
 import Explore from "../screens/Explore";
 import Notifications from "../screens/Notifications";
-import Profile from "../screens/Profile";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -79,4 +77,3 @@ const TabNavigation = () => {
 
 export default TabNavigation;
 
-const styles = StyleSheet.create({});
