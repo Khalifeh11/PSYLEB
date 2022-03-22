@@ -4,7 +4,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Avatar } from "react-native-paper";
 import { MaterialIcons } from "@expo/vector-icons";
 
-const Profile = () => {
+
+const Profile = ({ navigation }) => {
   return (
     <SafeAreaView>
       <View>
@@ -29,7 +30,9 @@ const Profile = () => {
           </View>
           <View style={styles.iconsContainer}>
             <View style={styles.appointmentContainer}>
-              <TouchableOpacity onPress={() => console.log("test")}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("MyAppointments")}
+              >
                 <MaterialIcons
                   style={{ alignSelf: "center" }}
                   name="date-range"
@@ -40,7 +43,9 @@ const Profile = () => {
               </TouchableOpacity>
             </View>
             <View style={styles.providerContainer}>
-              <TouchableOpacity onPress={() => console.log("test")}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("MyProviders")}
+              >
                 <MaterialIcons
                   style={{ alignSelf: "center" }}
                   name="people-alt"
@@ -63,6 +68,7 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: "rgba(91, 176, 117, 1)",
     height: 150,
+    marginTop: -50,
   },
   avatarContainer: {
     alignSelf: "center",
