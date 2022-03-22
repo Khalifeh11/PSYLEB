@@ -2,7 +2,6 @@ import MyAppointments from "../screens/MyAppointments";
 import MyProviders from "../screens/MyProviders";
 import Profile from "../screens/Profile";
 import { createStackNavigator } from "@react-navigation/stack";
-import { backgroundColor } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
 
 const ProfileRoutes = () => {
   const ProfileNavigation = createStackNavigator();
