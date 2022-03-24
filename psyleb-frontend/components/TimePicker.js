@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, View } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import PrimaryButton from './PrimaryButton';
 
 const TimePicker = () => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -20,7 +21,7 @@ const TimePicker = () => {
 
   return (
     <View>
-      <Button title="Log hours of sleep" onPress={showDatePicker} />
+      <PrimaryButton title="Log hours of sleep" job={showDatePicker} text={'When did you sleep?'}/>
       <DateTimePickerModal
         isVisible={isDatePickerVisible}
         mode="time"
