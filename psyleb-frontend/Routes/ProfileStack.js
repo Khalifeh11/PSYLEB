@@ -1,7 +1,8 @@
 import MyAppointments from "../screens/MyAppointments";
 import MyProviders from "../screens/MyProviders";
-import Profile from "../screens/Profile";
+import Profile from "../screens/ClientProfile";
 import { createStackNavigator } from "@react-navigation/stack";
+import Settings from "../screens/Settings";
 
 const ProfileRoutes = () => {
   const ProfileNavigation = createStackNavigator();
@@ -31,6 +32,19 @@ const ProfileRoutes = () => {
         options={{
           headerShown: true,
           title: "My Providers",
+          headerStyle: {
+            backgroundColor: "#5bb075",
+          },
+          headerTintColor: "#fff",
+        }}
+      />
+
+      <ProfileNavigation.Screen
+        name="Settings"
+        component={Settings}
+        options={{
+          headerShown: true,
+          title: "Settings",
           headerStyle: {
             backgroundColor: "#5bb075",
           },
