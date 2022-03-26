@@ -1,2 +1,5 @@
-export const loginURL = 'http://127.0.0.1:8000/api/auth/login'
+const IP = "http://192.168.1.95:8000";
+
+export default IP;
+
 
