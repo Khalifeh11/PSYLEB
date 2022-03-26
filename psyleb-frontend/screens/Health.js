@@ -4,21 +4,23 @@ import MoodIcons from "../components/MoodIcons";
 // import { TextInput } from "react-native-paper";
 import TimePicker from "../components/TimePicker";
 import { SafeAreaView } from "react-native-safe-area-context";
-import TimePicker2 from "../components/TimePicker2";
+import { userContext } from "../userContext";
+import { useContext } from "react";
 
 const Health = () => {
   let currentDate = new Date();
   let cDay = currentDate.getDate();
   let cMonth = currentDate.getMonth() + 1;
   let cYear = currentDate.getFullYear();
-
+  // const {currentUser, setCurrentUser} = useContext(userContext)
+  // console.warn(currentUser);
   return (
     <SafeAreaView>
       <ScrollView>
         <View style={styles.healthContainer}>
           <View style={styles.header}>
             <Text style={styles.headerText}>Hello, Karim!</Text>
-            <Text style={styles.headerText}>{cDay}/{cMonth}/{cYear}</Text>
+            {/* <Text style={styles.headerText}>{cDay}/{cMonth}/{cYear}</Text> */}
           </View>
           <View style={[styles.moodIconContainer, styles.Item]}>
             <Text style={styles.moodText}>Log mood</Text>
@@ -36,7 +38,6 @@ const Health = () => {
               style={styles.input}
               multiline={true}
               placeholder={"How are you feeling today?"}
-              inlineImageLeft="search_icon"
             />
           </View>
           <View style={[styles.timeContainer, styles.Item]}>
@@ -69,7 +70,7 @@ const styles = StyleSheet.create({
   input: {
     borderWidth: 1,
     borderColor: "rgba(93, 176, 117, 1)",
-    height: 100,
+    height: 150,
     width: 300,
     alignSelf: "center",
     borderRadius: 4,
