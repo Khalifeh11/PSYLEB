@@ -1,7 +1,8 @@
 import * as React from "react";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import Health from "../screens/Health";
-import Chats from "../screens/Chats";
+import Chat from "../screens/Chat";
+import MyChats from "../screens/MyChats";
 import Explore from "../screens/Explore";
 import Notifications from "../screens/Notifications";
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -10,6 +11,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import ProfileRoutes from "./ProfileStack";
+import ChatRoutes from "./ChatStack";
 
 const TabNavigation = () => {
   const Tab = createMaterialBottomTabNavigator();
@@ -33,7 +35,7 @@ const TabNavigation = () => {
       />
       <Tab.Screen
         name="Chats"
-        component={Chats}
+        component={ChatRoutes}
         options={{
           tabBarLabel: "Chat",
           tabBarIcon: ({ color }) => (
@@ -51,7 +53,7 @@ const TabNavigation = () => {
           ),
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Notifications"
         component={Notifications}
         options={{
@@ -60,7 +62,7 @@ const TabNavigation = () => {
             <Ionicons name="notifications" size={24} color={color} />
           ),
         }}
-      />
+      /> */}
       <Tab.Screen
         name="ProfileRoutes"
         component={ProfileRoutes}
