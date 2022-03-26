@@ -2,53 +2,74 @@ import { StyleSheet, Text, View, Button, Image, Alert } from "react-native";
 import { TextInput } from "react-native-paper";
 // import { NavigationContainer } from '@react-navigation/native';
 // import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { userContext } from "../userContext";
 import axios from "axios";
 import Logo from "../components/Logo";
 import PrimaryButton from "../components/PrimaryButton";
 import PrimaryTextInput from "../components/PrimaryTextInput";
 import { SafeAreaView } from "react-native-safe-area-context";
+import IP from '../globals/IP'
 
 export default function Login({ navigation }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [status, setStatus] = useState("");
+  const loginAPI = `${IP}/api/auth/login`;
+  const { currentUser, setCurrentUser } = useContext(userContext);
 
+  const [data, setData] = useState({
+    email: "",
+    password: "",
+  });
 
-  const navigate = () => {
-    navigation.navigate("Navigation");
+  const handleEmail = (value) => {
+    setData({
+      ...data,
+      email: value,
+    });
   };
 
+  const handlePassword = (value) => {
+    setData({
+      ...data,
+      password: value,
+    })
+  }
+
+
+  // const navigate = () => {
+  //   navigation.navigate("Navigation");
+  // };
+
   const loginFetch = async () => {
-    const url = "http://127.0.0.1:8000/api/auth/login";
+    // const url = "http://192.168.0.105:8000/api/auth/login";
     const user = {
-      email: email,
-      password: password,
+      email: data.email,
+      password: data.password,
     };
 
     try {
-      const response = await axios.post(url, user);
-      const data = await response.data;
-      navigation.navigate("Navigation");
-      console.log(data);
+      const response = await axios.post(loginAPI, user);
+      const dataFetched = await response.data;
+      setCurrentUser(dataFetched);
     } catch (error) {
-      console.log("sign in error", error);
+      console.warn(error)
     }
   };
+
+
   return (
     <SafeAreaView>
       <View style={styles.container}>
         <Logo />
         <PrimaryTextInput
           label={"Email"}
-          value={email}
-          changeText={email=>setEmail(email)}
+          value={data.email}
+          changeText={handleEmail}
           isPassword={false}
         />
         <PrimaryTextInput
           label={"Password"}
-          value={password}
-          changeText={pass=>setPassword(pass)}
+          value={data.password}
+          changeText={handlePassword}
           isPassword={true}
           icon={<TextInput.Icon name="eye" />}
         />
@@ -59,7 +80,7 @@ export default function Login({ navigation }) {
             onPress={() => navigation.navigate("Register")}
             style={styles.signup}
           >
-              Sign Up
+            Sign Up
           </Text>
         </Text>
       </View>
