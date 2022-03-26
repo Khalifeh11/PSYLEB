@@ -3,6 +3,8 @@ import { View, Text, StyleSheet } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import PrimaryTextInput from "../components/PrimaryTextInput";
 import { useState } from "react";
+import { Modal, Portal, Provider } from "react-native-paper";
+import List from "../components/List";
 
 const Explore = () => {
   const [pin, setPin] = useState({
@@ -15,6 +17,49 @@ const Explore = () => {
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   });
+  const [visible, setVisible] = useState(false);
+
+  const showModal = () => setVisible(true);
+  const hideModal = () => setVisible(false);
+  const containerStyle = {
+    backgroundColor: "white",
+    width: 250,
+    alignSelf: "center",
+    marginRight: 30,
+    borderRadius: 10,
+  };
+
+  const [selectedId,setSelectedId] = useState();
+
+  const [provider, setProviders] = useState([
+    {
+      id: 1,
+      name: "Karim Khalifeh",
+      Specialty: "Clinical Psychologist",
+      City: "Saida",
+      latitude: 33.890536626710244,
+      longitude: 35.489303601542964,
+    },
+
+    {
+      id: 2,
+      name: "Charbel Daoud",
+      Specialty: "Clinical Psychologist",
+      City: "Beirut",
+      longitude: 33.8905,
+      latitude: 33.8905,
+    },
+
+    {
+      id: 3,
+      name: "Joe Rizk",
+      Specialty: "Clinical Psychologist",
+      City: "Jounieh",
+      latitude: 34.890536626710244,
+      longitude: 35.489303601542964,
+    },
+
+  ]);
 
   return (
     <View style={styles.container}>
@@ -30,10 +75,10 @@ const Explore = () => {
       <MapView
         style={styles.map}
         initialRegion={{
-          latitude: 33.888630,
-          longitude: 35.495480,
-          latitudeDelta: 1.8,
-          longitudeDelta: 1.8,
+          latitude: region.latitude,
+          longitude: region.longitude,
+          latitudeDelta: 0.5,
+          longitudeDelta: 0.5,
         }}
       >
         {/* <Marker
@@ -42,8 +87,7 @@ const Explore = () => {
             longitude: region.longitude,
           }}
         /> */}
-
-        <Marker
+        {/* <Marker
           coordinate={pin}
           pinColor="purple"
           draggable={true}
@@ -56,17 +100,50 @@ const Explore = () => {
                 latitude: e.nativeEvent.coordinate.latitude,
                 longitude: e.nativeEvent.coordinate.longitude,
               });
-              setRegion({
-                latitude: e.nativeEvent.coordinate.latitude,
-                longitude: e.nativeEvent.coordinate.longitude,
-              });
+            setRegion({
+              latitude: e.nativeEvent.coordinate.latitude,
+              longitude: e.nativeEvent.coordinate.longitude,
+            });
           }}
-        >
-          <Callout>
-            <Text>I'm here</Text>
-          </Callout>
-        </Marker>
+        ></Marker> */}
+
+{provider.map((item) => {
+          return (
+            <View key={item.id}>
+              <Marker
+                onPress={() => {
+                  setSelectedId(item);
+                  setVisible(true);
+
+                }}
+                pinColor="#1B8B6A"
+                coordinate={{
+                  latitude: item.latitude,
+                  longitude: item.longitude,
+                }}
+                title={item.name}
+              />
+            </View>
+          );
+        })}
       </MapView>
+      <Provider>
+        <Portal>
+          <Modal
+            visible={visible}
+            onDismiss={hideModal}
+            contentContainerStyle={containerStyle}
+          >
+            {/* <Text>Example Modal. Click outside this area to dismiss.</Text> */}
+            <List
+              first={selectedId && selectedId.name}
+              second={selectedId && selectedId.Specialty}
+              third={selectedId && selectedId.City}
+              image={require("../assets/profile.jpg")}
+            />
+          </Modal>
+        </Portal>
+      </Provider>
     </View>
   );
 };
