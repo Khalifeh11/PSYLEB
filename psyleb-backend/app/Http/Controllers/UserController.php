@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\UserAppointment;
+use App\Models\UserLocation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -18,7 +19,9 @@ class UserController extends Controller
     // get providers api (to be used when fetching locations on map)
 
     public function getProviders(){
-        $providers = User::where('user_type', '=', 2)->get();
+        $providers = UserLocation::join('users','users.id','=','user_locations.user_id')
+        ->where('user_type', '=', 2)
+        ->get(['users.*','user_locations.*']);
         return response()
         ->json(["Providers" => $providers]);
 
