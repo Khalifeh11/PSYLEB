@@ -2,11 +2,35 @@ import MapView, { Callout, Marker } from "react-native-maps";
 import { View, Text, StyleSheet } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import PrimaryTextInput from "../components/PrimaryTextInput";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Modal, Portal, Provider } from "react-native-paper";
 import List from "../components/List";
+import axios from "axios";
+import { userContext } from "../userContext";
+import { useContext } from "react";
+import IP from "../globals/IP";
+import PrimaryButton from "../components/PrimaryButton";
 
 const Explore = () => {
+  const { currentUser, setCurrentUser } = useContext(userContext);
+  const token = currentUser.access_token;
+  const getProviderAPI = `${IP}/api/user/providers`;
+  const [selectedId, setSelectedId] = useState();
+  const [providers, setProviders] = useState();
+
+  const fetchProviders = async () => {
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
+    try {
+      const response = await axios.get(getProviderAPI, config);
+      const data = await response.data;
+      setProviders(data);
+    } catch (error) {
+      console.log("can't get providers", error);
+    }
+  };
+
   const [pin, setPin] = useState({
     latitude: 33.890536626710244,
     longitude: 35.489303601542964,
@@ -25,49 +49,19 @@ const Explore = () => {
     backgroundColor: "white",
     width: 250,
     alignSelf: "center",
-    marginRight: 30,
     borderRadius: 10,
   };
 
-  const [selectedId,setSelectedId] = useState();
-
-  const [provider, setProviders] = useState([
-    {
-      id: 1,
-      name: "Karim Khalifeh",
-      Specialty: "Clinical Psychologist",
-      City: "Saida",
-      latitude: 33.890536626710244,
-      longitude: 35.489303601542964,
-    },
-
-    {
-      id: 2,
-      name: "Charbel Daoud",
-      Specialty: "Clinical Psychologist",
-      City: "Beirut",
-      longitude: 33.8905,
-      latitude: 33.8905,
-    },
-
-    {
-      id: 3,
-      name: "Joe Rizk",
-      Specialty: "Clinical Psychologist",
-      City: "Jounieh",
-      latitude: 34.890536626710244,
-      longitude: 35.489303601542964,
-    },
-
-  ]);
+  useEffect(()=>fetchProviders, []);
 
   return (
     <View style={styles.container}>
       <View style={styles.textInput}>
-        <PrimaryTextInput
+        {/* <PrimaryTextInput
           label={"Search Providers"}
           placeholder={"Search for providers"}
-        />
+        /> */}
+        {/* <PrimaryButton job={fetchProviders}/> */}
       </View>
       <View style={styles.search}>
         <FontAwesome name="search" size={24} color="black" />
@@ -81,51 +75,25 @@ const Explore = () => {
           longitudeDelta: 0.5,
         }}
       >
-        {/* <Marker
-          coordinate={{
-            latitude: region.latitude,
-            longitude: region.longitude,
-          }}
-        /> */}
-        {/* <Marker
-          coordinate={pin}
-          pinColor="purple"
-          draggable={true}
-          onDragStart={(e) => {
-            console.log("Drag start", e.nativeEvent.coordinate);
-          }}
-          onDragEnd={(e) => {
-            console.log("Drag end", e.nativeEvent.coordinate),
-              setPin({
-                latitude: e.nativeEvent.coordinate.latitude,
-                longitude: e.nativeEvent.coordinate.longitude,
-              });
-            setRegion({
-              latitude: e.nativeEvent.coordinate.latitude,
-              longitude: e.nativeEvent.coordinate.longitude,
-            });
-          }}
-        ></Marker> */}
-
-{provider.map((item) => {
-          return (
-            <View key={item.id}>
-              <Marker
-                onPress={() => {
-                  setSelectedId(item);
-                  setVisible(true);
-
-                }}
-                pinColor="#1B8B6A"
-                coordinate={{
-                  latitude: item.latitude,
-                  longitude: item.longitude,
-                }}
-                title={item.name}
-              />
-            </View>
-          );
-        })}
+        {providers &&
+          providers.Providers.map((item) => {
+            return (
+              <View key={item.id}>
+                <Marker
+                  onPress={() => {
+                    setSelectedId(item);
+                    setVisible(true);
+                  }}
+                  pinColor="#1B8B6A"
+                  coordinate={{
+                    latitude: item.lat,
+                    longitude: item.lng,
+                  }}
+                  title={item.first_name}
+                />
+              </View>
+            );
+          })}
       </MapView>
       <Provider>
         <Portal>
@@ -134,11 +102,10 @@ const Explore = () => {
             onDismiss={hideModal}
             contentContainerStyle={containerStyle}
           >
-            {/* <Text>Example Modal. Click outside this area to dismiss.</Text> */}
             <List
-              first={selectedId && selectedId.name}
-              second={selectedId && selectedId.Specialty}
-              third={selectedId && selectedId.City}
+              first={selectedId && selectedId.first_name}
+              second={selectedId && selectedId.occupation}
+              third={selectedId && selectedId.city}
               image={require("../assets/profile.jpg")}
             />
           </Modal>
