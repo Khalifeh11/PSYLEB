@@ -12,6 +12,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import ProfileRoutes from "./ProfileStack";
 import ChatRoutes from "./ChatStack";
+import ExploreRoutes from "./ExploreStack";
 
 const TabNavigation = () => {
   const Tab = createMaterialBottomTabNavigator();
@@ -44,8 +45,8 @@ const TabNavigation = () => {
         }}
       />
       <Tab.Screen
-        name="Explore"
-        component={Explore}
+        name="ExploreStack"
+        component={ExploreRoutes}
         options={{
           tabBarLabel: "Explore",
           tabBarIcon: ({ color }) => (
