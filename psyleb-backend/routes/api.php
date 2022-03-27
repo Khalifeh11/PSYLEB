@@ -32,6 +32,8 @@ Route::group(['middleware' => ['auth:api']], function ($router) {
         ;
         Route::get('/logs', [UserController::class, 'getMyLogs']); 
         Route::get('/clientLogs/{id}', [UserController::class, 'getClientLogs']); 
+        Route::get('/providers', [UserController::class, 'getProviders']); 
+
     });
 
     Route::group(['prefix' => 'logs'], function () {

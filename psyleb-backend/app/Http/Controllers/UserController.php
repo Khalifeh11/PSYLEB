@@ -14,6 +14,15 @@ class UserController extends Controller
     // public function getUserConnections(){
     //     return response()->json(array("connections" => auth()->user()->connections()));
     // }
+
+    // get providers api (to be used when fetching locations on map)
+
+    public function getProviders(){
+        $providers = User::where('user_type', '=', 2)->get();
+        return response()
+        ->json(["Providers" => $providers]);
+
+    }
     // getting logs from client side
     public function getMyLogs(){
         $user = Auth::user();
@@ -53,7 +62,7 @@ class UserController extends Controller
         $result = User::where(function($query) use ($search){            
             $query->where('first_name', 'like', $search)
                   ->orWhere('last_name', 'like', $search);
-                })->where('user_type', '=', 1)->get();
+                })->where('user_type', '=', 2)->get();
                           
         return response()   
                 ->json(["providers" => $result]);
