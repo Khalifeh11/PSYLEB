@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import PrimaryTextInput from "../components/PrimaryTextInput";
 import { useEffect, useState } from "react";
-import { Modal, Portal, Provider } from "react-native-paper";
+import { Modal, Portal, Provider, Button } from "react-native-paper";
 import List from "../components/List";
 import axios from "axios";
 import { userContext } from "../userContext";
@@ -11,7 +11,7 @@ import { useContext } from "react";
 import IP from "../globals/IP";
 import PrimaryButton from "../components/PrimaryButton";
 
-const Explore = () => {
+const Explore = ({ navigation }) => {
   const { currentUser, setCurrentUser } = useContext(userContext);
   const token = currentUser.access_token;
   const getProviderAPI = `${IP}/api/user/providers`;
@@ -52,7 +52,7 @@ const Explore = () => {
     borderRadius: 10,
   };
 
-  useEffect(()=>fetchProviders, []);
+  useEffect(() => fetchProviders);
 
   return (
     <View style={styles.container}>
@@ -101,13 +101,19 @@ const Explore = () => {
             visible={visible}
             onDismiss={hideModal}
             contentContainerStyle={containerStyle}
+            onPress={() => navigation.navigate("Provider")}
           >
             <List
-              first={selectedId && selectedId.first_name}
+              first={
+                selectedId && selectedId.first_name + " " + selectedId.last_name
+              }
               second={selectedId && selectedId.occupation}
               third={selectedId && selectedId.city}
               image={require("../assets/profile.jpg")}
             />
+            <Button onPress={() => navigation.navigate("Provider")}>
+              Profile
+            </Button>
           </Modal>
         </Portal>
       </Provider>
@@ -118,7 +124,7 @@ const Explore = () => {
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
-    height: 1000,
+    height: 757,
     width: 400,
     justifyContent: "flex-end",
     alignItems: "center",
