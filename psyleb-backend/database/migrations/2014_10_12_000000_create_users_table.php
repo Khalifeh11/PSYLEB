@@ -21,10 +21,11 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->date('dob')->nullable();
+            $table->text('bio')->nullable();
             $table->string('occupation')->nullable();
             $table->string('education')->nullable();
             $table->tinyInteger('gender')->nullable();
-            $table->tinyInteger('user_type')->default(0); // fix with migrate fresh and seed again
+            $table->tinyInteger('user_type')->default(1); // fix with migrate fresh and seed again
             $table->rememberToken();
             $table->timestamps();
         });
