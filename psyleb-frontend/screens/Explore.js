@@ -6,17 +6,17 @@ import { useEffect, useState } from "react";
 import { Modal, Portal, Provider, Button } from "react-native-paper";
 import List from "../components/List";
 import axios from "axios";
-import { userContext } from "../userContext";
+import { selectedProviderContext, userContext } from "../userContext";
 import { useContext } from "react";
 import IP from "../globals/IP";
-import PrimaryButton from "../components/PrimaryButton";
 
 const Explore = ({ navigation }) => {
   const { currentUser, setCurrentUser } = useContext(userContext);
   const token = currentUser.access_token;
   const getProviderAPI = `${IP}/api/user/providers`;
-  const [selectedId, setSelectedId] = useState();
+  // const [selectedId, setSelectedId] = useState();
   const [providers, setProviders] = useState();
+  const { selectedProvider, setSelectedProvider } = useContext(selectedProviderContext);
 
   const fetchProviders = async () => {
     const config = {
@@ -52,16 +52,11 @@ const Explore = ({ navigation }) => {
     borderRadius: 10,
   };
 
-  useEffect(() => fetchProviders);
+  useEffect(fetchProviders, []);
 
   return (
     <View style={styles.container}>
       <View style={styles.textInput}>
-        {/* <PrimaryTextInput
-          label={"Search Providers"}
-          placeholder={"Search for providers"}
-        /> */}
-        {/* <PrimaryButton job={fetchProviders}/> */}
       </View>
       <View style={styles.search}>
         <FontAwesome name="search" size={24} color="black" />
@@ -81,7 +76,7 @@ const Explore = ({ navigation }) => {
               <View key={item.id}>
                 <Marker
                   onPress={() => {
-                    setSelectedId(item);
+                    setSelectedProvider(item);
                     setVisible(true);
                   }}
                   pinColor="#1B8B6A"
@@ -105,10 +100,10 @@ const Explore = ({ navigation }) => {
           >
             <List
               first={
-                selectedId && selectedId.first_name + " " + selectedId.last_name
+                selectedProvider && selectedProvider.first_name + " " + selectedProvider.last_name
               }
-              second={selectedId && selectedId.occupation}
-              third={selectedId && selectedId.city}
+              second={selectedProvider && selectedProvider.occupation}
+              third={selectedProvider && selectedProvider.city}
               image={require("../assets/profile.jpg")}
             />
             <Button onPress={() => navigation.navigate("Provider")}>
@@ -124,8 +119,8 @@ const Explore = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
-    height: 757,
-    width: 400,
+    height: '100%',
+    width: '100%',
     justifyContent: "flex-end",
     alignItems: "center",
     zIndex: -1,
