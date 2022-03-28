@@ -28,6 +28,7 @@ class UserController extends Controller
     }
     // getting logs from client side
     public function getMyLogs(){
+        //wrap code in try catch
         $user = Auth::user();
         $logs = $user->logs()->get();
         return response()
@@ -69,6 +70,28 @@ class UserController extends Controller
                           
         return response()   
                 ->json(["providers" => $result]);
+    }
+
+    public function editProfile(Request $request){
+        $user = Auth::user();
+        $validator = Validator::make($request->all(), [
+            'first_name' => 'string|max:255',
+            'last_name' => 'string|max:255',
+            'email' => 'string|email|max:255|unique:users,email,'.$user->id,
+            'password' => 'string|confirmed|min:6',
+            'bio'=>'string|max:255',
+        ]);
+        if($validator->fails()){
+            return response()->json($validator->errors()->toJson(), 400);
+        }
+        $user->update(array_merge(
+                    $validator->validated(),
+                    ['password' => bcrypt($request->password)]
+                ));
+        return response()->json([
+            'message' => 'User successfully updated',
+            'user' => $user
+        ], 201);
     }
 
 }
