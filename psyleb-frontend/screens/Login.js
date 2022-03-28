@@ -12,6 +12,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import IP from '../globals/IP'
 
 export default function Login({ navigation }) {
+
   const loginAPI = `${IP}/api/auth/login`;
   const { currentUser, setCurrentUser } = useContext(userContext);
 
@@ -34,27 +35,19 @@ export default function Login({ navigation }) {
     })
   }
 
-
-  // const navigate = () => {
-  //   navigation.navigate("Navigation");
-  // };
-
   const loginFetch = async () => {
-    // const url = "http://192.168.0.105:8000/api/auth/login";
     const user = {
       email: data.email,
       password: data.password,
     };
-
     try {
       const response = await axios.post(loginAPI, user);
-      const dataFetched = await response.data;
+      const dataFetched = response.data;
       setCurrentUser(dataFetched);
     } catch (error) {
       console.warn(error)
     }
   };
-
 
   return (
     <SafeAreaView>
@@ -91,7 +84,7 @@ export default function Login({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    justifyContent: "center",
+    marginTop: 150
   },
   image: {
     width: 50,
