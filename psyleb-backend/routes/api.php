@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LogsController;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\UserReviewController;
 
 
 
@@ -16,15 +17,19 @@ use App\Http\Controllers\AppointmentController;
 | Here is where you can register API routes for your application. These
 | routes are loaded by the RouteServiceProvider within a group which
 | is assigned the "api" middleware group. Enjoy building your API!
-|
+| 
+
 */
 
 Route::group(['middleware' => ['auth:api']], function ($router) {
+
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
 
     Route::group(['prefix' => 'user'], function () {
-        Route::get('/profile', [AuthController::class, 'userProfile']);           
+        Route::get('/profile', [AuthController::class, 'userProfile']); 
+        Route::post('/edit-profile', [UserController::class, 'editProfile']); 
+         
         Route::get('/search/{key}', [UserController::class, 'SearchUsers']); 
         Route::get('/connections', [UserController::class, 'getUserConnections']);   
         Route::get('/appointments', [UserController::class, 'getUserAppointments']);
@@ -33,6 +38,10 @@ Route::group(['middleware' => ['auth:api']], function ($router) {
         Route::get('/logs', [UserController::class, 'getMyLogs']); 
         Route::get('/clientLogs/{id}', [UserController::class, 'getClientLogs']); 
         Route::get('/providers', [UserController::class, 'getProviders']); 
+
+        Route::post('/addReview', [UserReviewController::class, 'addReview']);
+        Route::delete('/deleteReview', [UserReviewController::class, 'deleteReview']);
+
 
     });
 
