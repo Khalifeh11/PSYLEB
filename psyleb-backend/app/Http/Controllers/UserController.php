@@ -79,7 +79,7 @@ class UserController extends Controller
             'last_name' => 'string|max:255',
             'email' => 'string|email|max:255|unique:users,email,'.$user->id,
             'password' => 'string|confirmed|min:6',
-            'bio'=>'string|max:255',
+            'bio'=>'required|string|max:255',
         ]);
         if($validator->fails()){
             return response()->json($validator->errors()->toJson(), 400);
