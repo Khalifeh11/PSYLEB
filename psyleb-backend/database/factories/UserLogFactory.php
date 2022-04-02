@@ -19,7 +19,7 @@ class UserLogFactory extends Factory
         return [
             'mood'=>$this->faker->numberBetween(0,5),
             'notes'=>$this->faker->text($maxNbChars = 200),
-            'sleep'=>$this->faker->numberBetween(0,12),
+            'hours_slept'=>$this->faker->numberBetween(0,15),
             'user_id'=>$this->faker->randomElement($users)
         ];
     }
