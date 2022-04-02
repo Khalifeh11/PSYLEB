@@ -17,15 +17,16 @@ class UserAppointmentFactory extends Factory
     public function definition()
     {
         $users = User::all()->pluck('id')->toArray();
-        $location = UserLocation::all()->pluck('id')->toArray();
+        // $location = UserLocation::all()->pluck('id')->toArray();
 
         return [
-            'name' => 'Appointment',
-            'date' => $this->faker->date(),
+            // 'name' => 'Appointment',
+            'datetime' => $this->faker->datetime(),
+            'city' => $this->faker->city(),
             'is_pending' => $this->faker->numberBetween(0, 1),
             'provider_id' =>$this->faker->unique()->randomElement($users),
             'client_id'=>$this->faker->unique()->randomElement($users),
-            'location_id'=>$this->faker->unique()->randomElement($location),
+            // 'location_id'=>$this->faker->unique()->randomElement($location),
         ];
     }
 }
