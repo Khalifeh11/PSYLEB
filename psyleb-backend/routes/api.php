@@ -29,15 +29,33 @@ Route::group(['middleware' => ['auth:api']], function ($router) {
     Route::group(['prefix' => 'user'], function () {
         Route::get('/profile', [AuthController::class, 'userProfile']); 
         Route::post('/edit-profile', [UserController::class, 'editProfile']); 
-         
+
+        Route::get('/myProviders', [UserController::class, 'getMyProviders']); 
+
+        Route::get('/myClients', [UserController::class, 'getMyClients']); 
+        
+        
+        Route::post('/add-picture', [userController::class, 'addPicture']);    
+
+
         Route::get('/search/{key}', [UserController::class, 'SearchUsers']); 
         Route::get('/connections', [UserController::class, 'getUserConnections']);   
         Route::get('/appointments', [UserController::class, 'getUserAppointments']);
+
+        Route::get('/pendingAppointments', [UserController::class, 'getUserPendingAppointments']);
+
         Route::get('/provider-appointments', [UserController::class, 'getProviderAppointments'])
         ;
         Route::get('/logs', [UserController::class, 'getMyLogs']); 
+        
         Route::get('/clientLogs/{id}', [UserController::class, 'getClientLogs']); 
         Route::get('/providers', [UserController::class, 'getProviders']); 
+
+        // get provider reviews from client side
+        Route::get('/providerReviews', [UserController::class, 'getProviderReviews']);
+
+        // get my reviews as a provider
+        Route::get('/myReviews', [UserController::class, 'getMyReviews']);
 
         Route::post('/addReview', [UserReviewController::class, 'addReview']);
         Route::delete('/deleteReview', [UserReviewController::class, 'deleteReview']);
