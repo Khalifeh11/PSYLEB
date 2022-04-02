@@ -12,6 +12,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import ProfileRoutes from "./ProfileStack";
 import ChatRoutes from "./ChatStack";
+import HealthRoutes from "./HealthStack"; 
 import ExploreRoutes from "./ExploreStack";
 
 const TabNavigation = () => {
@@ -19,14 +20,14 @@ const TabNavigation = () => {
 
   return (
     <Tab.Navigator
-      initialRouteName="Health"
+      initialRouteName="HealthRoutes"
       activeColor="rgba(246, 246, 246, 1)"
       inactiveColor="rgba(246, 246, 246, 0.65)"
       barStyle={{ backgroundColor: "#5DB075", height: 60 }}
     >
       <Tab.Screen
-        name="Health"
-        component={Health}
+        name="HealthRoutes"
+        component={HealthRoutes}
         options={{
           tabBarLabel: "Health",
           tabBarIcon: ({ color }) => (
