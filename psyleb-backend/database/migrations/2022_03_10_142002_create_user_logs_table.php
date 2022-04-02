@@ -17,7 +17,7 @@ class CreateUserLogsTable extends Migration
             $table->id();
             $table->boolean('mood')->nullable();
             $table->text('notes')->nullable();
-            $table->string('sleep')->nullable();
+            $table->integer('hours_slept')->nullable();
             $table->foreignId('user_id')
             ->constrained('users')
             ->onDelete('cascade'); 
