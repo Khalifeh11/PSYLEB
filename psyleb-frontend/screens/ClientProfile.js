@@ -5,6 +5,8 @@ import Header from "../components/Header";
 import ProfileIconContainer from "../components/ProfileIconContainer";
 import { userContext } from "../userContext";
 import { useContext } from "react";
+import { Ionicons } from "@expo/vector-icons";
+
 
 const Profile = ({ navigation }) => {
   const { currentUser, setCurrentUser } = useContext(userContext);
@@ -12,16 +14,32 @@ const Profile = ({ navigation }) => {
   return (
     <SafeAreaView>
       <View>
-        <Header job={settingsNavigate} />
+        <Header
+          settings={
+            <View style={styles.logoutContainer}>
+              <TouchableOpacity onPress={settingsNavigate}>
+                <Ionicons name="settings-outline" size={30} color="white" />
+              </TouchableOpacity>
+            </View>
+          }
+        />
         <View style={styles.userContainer}>
           <View style={styles.usernameContainer}>
-            <Text style={styles.username}>{currentUser.user.first_name} {currentUser.user.last_name}</Text>
-          </View>
-          <View style={styles.bioContainer}>
-            <Text style={styles.bio}>
-              Third Year Economics student at the University of beirut. Looking
-              for a life coach to help me in my self discovery journey.
+            <Text style={styles.username}>
+              {currentUser.user.first_name} {currentUser.user.last_name}
             </Text>
+          </View>
+          <View>
+            <View style={styles.bioHeaderContainer}>
+              <Text style={styles.bioHeader}>Bio</Text>
+            </View>
+            <View style={styles.bioContainer}>
+              <Text style={styles.bio}>
+                Third Year Economics student at the University of beirut.
+                Looking for a life coach to help me in my self discovery
+                journey.
+              </Text>
+            </View>
           </View>
           <View style={styles.iconsContainer}>
             <ProfileIconContainer
@@ -53,17 +71,6 @@ const styles = StyleSheet.create({
     marginTop: 60,
   },
 
-  // editContainer: {
-  //   alignSelf: "flex-start",
-  //   marginLeft: 20,
-  // },
-
-  // edit: {
-  //   fontWeight: "bold",
-  //   fontSize: 17,
-  //   color: "white",
-  // },
-
   logoutContainer: {
     alignSelf: "flex-end",
     marginTop: -170,
@@ -86,11 +93,25 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
   },
+
+  bioHeaderContainer: {
+    alignSelf: "flex-start",
+  },
+
+  bioHeader: {
+    fontWeight: "bold",
+    fontSize: 17,
+  },
+
   bioContainer: {
-    width: 223,
+    backgroundColor: "#fff",
+    width: 263,
+    borderRadius: 10,
+    padding: 10,
   },
   bio: {
     fontStyle: "italic",
+    fontSize: 15,
   },
   iconsContainer: {
     flexDirection: "row",
@@ -101,5 +122,16 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "rgba(255, 255, 255, 1)",
     fontWeight: "bold",
+  },
+
+  logoutContainer: {
+    alignSelf: "flex-end",
+    marginTop: -170,
+    marginRight: 20,
+  },
+  logout: {
+    fontWeight: "bold",
+    fontSize: 17,
+    color: "white",
   },
 });
