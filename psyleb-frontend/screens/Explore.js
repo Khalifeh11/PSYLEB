@@ -53,7 +53,7 @@ const Explore = ({ navigation }) => {
   };
 
   useEffect(fetchProviders, []);
-
+  // console.warn(providers && providers.Providers)
   return (
     <View style={styles.container}>
       <View style={styles.textInput}>
@@ -79,7 +79,7 @@ const Explore = ({ navigation }) => {
                     setSelectedProvider(item);
                     setVisible(true);
                   }}
-                  pinColor="#1B8B6A"
+                  pinColor="#5DB075"
                   coordinate={{
                     latitude: item.lat,
                     longitude: item.lng,
@@ -106,7 +106,7 @@ const Explore = ({ navigation }) => {
               third={selectedProvider && selectedProvider.city}
               image={require("../assets/profile.jpg")}
             />
-            <Button onPress={() => navigation.navigate("Provider")}>
+            <Button onPress={() => navigation.navigate("Provider")} color={'#5DB075'}>
               Profile
             </Button>
           </Modal>
