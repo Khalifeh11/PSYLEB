@@ -6,24 +6,30 @@ use Illuminate\Http\Request;
 use Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Models\UserAppointment;
+use App\Models\UserLocation;
 use App\Models\User;
+ 
 
 
 
 class AppointmentController extends Controller
 {
         public function requestAppointment(Request $request){
+            $provider_id = $request->provider_id;
+            // $provider = User::find($provider_id);
+            // $location_id = $provider->userLocation()->get();
 
             $valid = $this->appt_validation($request->all());
+                
+
             if ($valid->fails()) {
                 return response()->json($valid->errors(), 422);
             }else{
                     $appointment = new UserAppointment;
-                    $appointment->name = $request->name;
-                    $appointment->date = $request->date;
+                    $appointment->datetime = $request->datetime;
+                    $appointment->city = $request->city;
                     $appointment->client_id = Auth::user()->id;
                     $appointment->provider_id = $request->provider_id;
-                    $appointment->location_id = $request->location_id;
                     $appointment->save();
 
                     
@@ -90,10 +96,10 @@ class AppointmentController extends Controller
     }
 
     private function appt_validation(array $request){
-            $now = date('Y-m-d');
+            // $now = date('Y-m-d');
+            $now = date('Y-m-d h:i:s');
             return Validator::make($request, [
-                'name' => 'between:0,100|string',
-                'date' =>'date_format:Y-m-d|after_or_equal:'. $now,
+                'datetime' => 'after_or_equal:'. $now,
             ]);
     }
 }
