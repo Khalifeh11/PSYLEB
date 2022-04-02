@@ -15,8 +15,9 @@ class CreateUserAppointmentsTable extends Migration
     {
         Schema::create('user_appointments', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->date('date');
+            // $table->string('name');
+            $table->dateTime('datetime');
+            $table->string('city');
             $table->boolean('is_pending')->default(1);
             $table->foreignId('client_id')
             ->constrained("users")
@@ -24,9 +25,9 @@ class CreateUserAppointmentsTable extends Migration
             $table->foreignId('provider_id')
             ->constrained("users")
             ->onDelete("cascade");
-            $table->foreignId('location_id')
-            ->constrained("user_locations")
-            ->onDelete("cascade");
+            // $table->foreignId('location_id')
+            // ->constrained("user_locations")
+            // ->onDelete("cascade");
             $table->timestamps();
         });
     }
