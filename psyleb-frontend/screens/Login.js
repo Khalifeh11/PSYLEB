@@ -66,7 +66,7 @@ export default function Login({ navigation }) {
           isPassword={true}
           icon={<TextInput.Icon name="eye" />}
         />
-        <PrimaryButton job={loginFetch} text="login" />
+        <PrimaryButton job={loginFetch} text="login" color={'#5DB075'}/>
         <Text style={styles.signupText}>
           Don't have an account?{" "}
           <Text
