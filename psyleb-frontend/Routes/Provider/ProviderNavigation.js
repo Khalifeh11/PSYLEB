@@ -3,8 +3,10 @@ import ProviderAppointments from "../../screens/ProviderScreens/ProviderAppointm
 import MyClients from "../../screens/ProviderScreens/MyClients";
 import ProviderSettings from "../../screens/ProviderScreens/ProviderSettings";
 import ProviderChats from "../../screens/ProviderScreens/ProviderChats";
+import MyReviews from "../../screens/ProviderScreens/MyReviews";
+import MyClientProfile from "../../screens/ProviderScreens/MyClientProfile";
+import ClientLogs from "../../screens/ProviderScreens/ClientLogs";
 import { createStackNavigator } from "@react-navigation/stack";
-
 
 const ProviderRoutes = () => {
   const ProviderNavigation = createStackNavigator();
@@ -57,6 +59,24 @@ const ProviderRoutes = () => {
       />
 
       <ProviderNavigation.Screen
+        name="MyClientProfile"
+        component={MyClientProfile}
+      />
+
+      <ProviderNavigation.Screen
+        name="MyClientLogs"
+        component={ClientLogs}
+        options={{
+          headerShown: true,
+          title: "My Client Logs",
+          headerStyle: {
+            backgroundColor: "#5bb075",
+          },
+          headerTintColor: "#fff",
+        }}
+      />
+
+      <ProviderNavigation.Screen
         name="ProviderChats"
         component={ProviderChats}
         options={{
@@ -69,6 +89,18 @@ const ProviderRoutes = () => {
         }}
       />
 
+      <ProviderNavigation.Screen
+        name="MyReviews"
+        component={MyReviews}
+        options={{
+          headerShown: true,
+          title: "My Reviews",
+          headerStyle: {
+            backgroundColor: "#5bb075",
+          },
+          headerTintColor: "#fff",
+        }}
+      />
     </ProviderNavigation.Navigator>
   );
 };
