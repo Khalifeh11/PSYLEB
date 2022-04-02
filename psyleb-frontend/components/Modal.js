@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Modal, Portal, Text, Button, Provider } from 'react-native-paper';
+import SmallButton from './SmallButton';
 
 const ProviderModal = () => {
   const [visible, setVisible] = React.useState(false);
@@ -15,9 +16,7 @@ const ProviderModal = () => {
           <Text>Example Modal.  Click outside this area to dismiss.</Text>
         </Modal>
       </Portal>
-      <Button style={{marginTop: 30}} onPress={showModal}>
-        Show
-      </Button>
+      <SmallButton text={"Add"} color={"#5DB075"} />
     </Provider>
   );
 };
