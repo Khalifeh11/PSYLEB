@@ -1,9 +1,10 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
-import { FontAwesome5 } from "@expo/vector-icons";
 
-const MoodIcons = () => {
+
+const MoodIcons = ( { setHealthRating }) => {
+  const [moodRating, setMoodRating] = useState();
   return (
     <View style={styles.container}>
       <TouchableOpacity>
@@ -26,7 +27,7 @@ const MoodIcons = () => {
         <MaterialIcons
           name="sentiment-dissatisfied"
           size={50}
-          color="#FE626B"
+          color="#FF874D"
         />
 
         <Text style={styles.text}>Bad</Text>
@@ -36,7 +37,7 @@ const MoodIcons = () => {
         <MaterialIcons
           name="sentiment-very-dissatisfied"
           size={50}
-          color="#FF874D"
+          color="#FF4D4D"
         />
         <Text style={styles.text}>Awful</Text>
       </TouchableOpacity>
