@@ -46,10 +46,9 @@ const Health = ({ navigation }) => {
   // diary states
   const [diary, setDiary] = useState();
 
-  
   // sleep and wake states
   const [sleepTime, setSleepTime] = useState();
-  const [waketime, setWakeTime] = useState();
+  const [wakeTime, setWakeTime] = useState();
   const [hoursSlept, sethoursSlept] = useState();
 
   // date picker visibility states
@@ -74,27 +73,29 @@ const Health = ({ navigation }) => {
 
   // date picker functions
   const handleSleepConfirm = (Sleep) => {
-    // const timeOfSleep = format(Sleep, "hh:mm:a");
+    // const timeOfSleep = format(Sleep, "hh:mm");
     setSleepTime(Sleep);
     hideSleepPicker();
   };
 
   const handleWakeConfirm = (Wake) => {
-    // const timeOfWake = format(Wake, "hh:mm:a");
+    // const timeOfWake = format(Wake, "hh:mm");
     setWakeTime(Wake);
     hideWakePicker();
   };
 
   // function to calculate hours slept
   const calculateHoursOfsleep = () => {
-    if (sleepTime && waketime) {
+    if (sleepTime && wakeTime) {
       const sleepTimeInHours = differenceInHours(
-        new Date(waketime),
+        new Date(wakeTime),
         new Date(sleepTime)
       );
       sethoursSlept(Math.abs(sleepTimeInHours));
     }
   };
+
+
 
   //async function section
   const logMoodAPI = `${IP}/api/logs/addLog`;
@@ -114,6 +115,7 @@ const Health = ({ navigation }) => {
     };
     try {
       if (moodData.mood) {
+        console.warn(moodData)
         const response = await axios.post(logMoodAPI, moodData, config);
         const dataFetched = response.data;
         Alert.alert("Mood logged!");
@@ -124,7 +126,6 @@ const Health = ({ navigation }) => {
       console.warn(error);
     }
   };
-
 
   return (
     <SafeAreaView>
@@ -216,13 +217,13 @@ const Health = ({ navigation }) => {
                 color={"#042a2b"}
               />
               {/* <PrimaryButton
-        title="hours of sleep"
-        job={calculateHoursOfsleep}
-        text={"Calculate Sleep"}
-      /> */}
-              {/* <Text>Slept at {sleepTime}</Text>
-      <Text>Woke up at {waketime}</Text> */}
-              {/* <Text>Slept for {hoursSlept} hours</Text> */}
+                title="hours of sleep"
+                job={calculateHoursOfsleep}
+                text={"Calculate Sleep"}
+              />
+              <Text>Slept at {sleepTime}</Text>
+              <Text>Woke up at {wakeTime}</Text>
+              <Text>Slept for {hoursSlept} hours</Text> */}
 
               <DateTimePickerModal
                 isVisible={isSleepPickerVisible}
