@@ -3,6 +3,7 @@ import MyProviders from "../screens/MyProviders";
 import Profile from "../screens/ClientProfile";
 import { createStackNavigator } from "@react-navigation/stack";
 import Settings from "../screens/Settings";
+import ProviderProfile from "../screens/ProviderProfile";
 
 const ProfileRoutes = () => {
   const ProfileNavigation = createStackNavigator();
@@ -37,6 +38,11 @@ const ProfileRoutes = () => {
           },
           headerTintColor: "#fff",
         }}
+      />
+
+      <ProfileNavigation.Screen
+        name="MyProvidersProfile"
+        component={ProviderProfile}
       />
 
       <ProfileNavigation.Screen
