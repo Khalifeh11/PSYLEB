@@ -2,7 +2,10 @@ import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "../../components/Header";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { userContext } from "../../userContext";
+import { useContext } from "react";
 
 import ProfileIconContainer from "../../components/ProfileIconContainer";
 // import ProviderSettings from "./ProviderSettings";
@@ -11,26 +14,53 @@ import ProfileIconContainer from "../../components/ProfileIconContainer";
 // import MyClients from "./MyClients";
 
 const ProviderProfile = ({ navigation }) => {
-  const settingsNavigate = () => navigation.navigate('ProviderSettings')
+  const settingsNavigate = () => navigation.navigate("ProviderSettings");
+  const { currentUser, setCurrentUser } = useContext(userContext);
   return (
     <SafeAreaView>
       <View>
-        <Header job={settingsNavigate}/>  
+        <Header
+          settings={
+            <View style={styles.logoutContainer}>
+              <TouchableOpacity onPress={settingsNavigate}>
+                <Ionicons name="settings-outline" size={30} color="white" />
+              </TouchableOpacity>
+            </View>
+          }
+        />
         <View style={styles.userContainer}>
           <View style={styles.usernameContainer}>
-            <Text style={styles.username}>Provider</Text>
+            <Text style={styles.username}>{currentUser.user.first_name + ' ' + currentUser.user.last_name}</Text>
           </View>
           <View style={styles.bioContainer}>
             <Text style={styles.bio}>
-              Clinical Psychologist specialized in treating mood disorders with an experience of 10 years in the field.
+              Clinical Psychologist specialized in treating mood disorders with
+              an experience of 10 years in the field.
             </Text>
           </View>
           <View style={styles.iconsContainer}>
-            <ProfileIconContainer icon={'date-range'} caption={'Appointments'} job={()=>navigation.navigate('ProviderAppointments')}/>
-            <ProfileIconContainer icon={'people-alt'} caption={'Clients'} job={()=>navigation.navigate('MyClients')}/>
+            <ProfileIconContainer
+              icon={"date-range"}
+              caption={"Appointments"}
+              job={() => navigation.navigate("ProviderAppointments")}
+            />
+            <ProfileIconContainer
+              icon={"people-alt"}
+              caption={"My Clients"}
+              job={() => navigation.navigate("MyClients")}
+            />
           </View>
-          <View style={styles.chatContainer}>
-          <ProfileIconContainer icon={'chat'} caption={'Chats'} job={()=>navigation.navigate('ProviderChats')}/>
+          <View style={styles.iconsContainer}>
+            <ProfileIconContainer
+              icon={"chat"}
+              caption={"My Chats"}
+              job={() => navigation.navigate("ProviderChats")}
+            />
+            <ProfileIconContainer
+              icon={"article"}
+              caption={"Reviews"}
+              job={() => navigation.navigate("MyReviews")}
+            />
           </View>
         </View>
       </View>
@@ -101,7 +131,6 @@ const styles = StyleSheet.create({
   },
   chatContainer: {
     marginTop: 20,
-    marginLeft: 30
-  }
+    marginLeft: 30,
+  },
 });
-
