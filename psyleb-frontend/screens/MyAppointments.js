@@ -1,41 +1,69 @@
-import { StyleSheet, Text, View, FlatList, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
 import React from "react";
 import List from "../components/List";
 import { useState } from "react";
+import IP from "../globals/IP";
+import { userContext } from "../userContext";
+import { useContext } from "react";
+import { useEffect } from "react";
+import axios from "axios";
+import format from "date-fns/format";
 
-  
 const MyAppointments = ({ navigation }) => {
-  const [appointments,setAppointments]=useState([
-    {
-      id: 1,
-      date: '27/3/2022',
-      provider: 'Karim Khalifeh',
-      location: 'Badaro'
-    },
-    {
-      id: 2,
-      date: '27/3/2022',
-      provider: 'Charbel Daoud',
-      location: 'Badaro'
+  const { currentUser, setCurrentUser } = useContext(userContext);
+  const [appointments, setAppointments] = useState();
 
-    },
-    {
-      id: 3,
-      date: '27/3/2022',
-      provider: 'Joe Rizk',
-      location: 'Badaro'
-    },
-  ]);
+  const fetchAppointments = async () => {
+    const url = `${IP}/api/user/appointments`;
+    const token = currentUser.access_token;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    try {
+      const response = await axios.get(url, config);
+      const dataFetched = response.data;
+      setAppointments(dataFetched);
+    } catch (error) {
+      console.warn(error);
+    }
+  };
+
+  // useEffect(() => {
+  //   fetchAppointments();
+  // }, []);
+
+  useEffect(fetchAppointments, []);
+
   return (
     <View>
-      <FlatList 
-        data={appointments}
+      <FlatList
+        data={appointments && appointments.appointments}
         key={(item) => item.id}
         renderItem={({ item }) => (
-      // <TouchableOpacity onPress={()=>{navigation.navigate('Chat')}}>
-      <List first={item.date} second={item.provider} third={item.location} image={require("../assets/profile.jpg")} />
-      // </TouchableOpacity>
-      )} />
+          // <TouchableOpacity onPress={()=>{navigation.navigate('Chat')}}>
+          //format(todayDate, "iii, dd MMM")
+          <List
+            // first={format(todayDate, "iii, dd MMM")}
+            first={item.datetime}
+            second={
+              (item.is_pending == 1
+                ? item.first_name + " " + item.last_name + " (pending)"
+                : item.first_name + " " + item.last_name)
+            }
+            third={item.city}
+            image={require("../assets/profile.jpg")}
+          />
+          // </TouchableOpacity>
+        )}
+      />
     </View>
   );
 };
