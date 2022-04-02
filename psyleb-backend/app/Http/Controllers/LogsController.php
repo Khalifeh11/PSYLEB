@@ -11,15 +11,16 @@ use Validator;
 class LogsController extends Controller
 {
         public function addLog(Request $request){
+            $user = Auth::user()->id;
             $validator = Validator::make($request->all(), [
-                'mood' => 'between:0,5|integer',
+                'mood' => 'between:1,5|integer',
                 'notes' =>'string|max:500',
-                'sleep' => 'integer|between:0,24'
+                'hours_slept' => 'integer',
             ]);
             if ($validator->fails()) {
                 return response()->json($validator->errors(), 422);
         }else{
-            $log = UserLog::create(array_merge($validator->validated(), ["user_id" => auth()->user()->id]));
+            $log = UserLog::create(array_merge($validator->validated(), ["user_id" => $user]));
 
             return response()->json([
                 'message' => 'New log entered!',
