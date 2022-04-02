@@ -1,6 +1,6 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import Explore from "../screens/Explore";
-import Provider from "../screens/Provider";
+import Provider from "../screens/ProviderProfile";
 
 const ExploreRoutes = () => {
   const ExploreNavigation = createStackNavigator();
