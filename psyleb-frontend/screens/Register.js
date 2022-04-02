@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Alert } from "react-native";
 import { useState } from "react";
 import React from "react";
 import PrimaryTextInput from "../components/PrimaryTextInput";
@@ -81,6 +81,9 @@ const Register = ({ navigation }) => {
     }
   };
 
+
+
+
   const registerFetch = async () => {
     const newUser = {
       email: data.email,
@@ -92,8 +95,8 @@ const Register = ({ navigation }) => {
     };
     try {
       const response = await axios.post(registerAPI, newUser);
-      const dataFetched = await response.data;
-      console.log(dataFetched);
+      const dataFetched = response.data;
+      navigation.navigate('Login');
     } catch (error) {
       console.warn(error);
     }
@@ -139,7 +142,7 @@ const Register = ({ navigation }) => {
           onPress={handleProvider}
         />
       </View>
-      <PrimaryButton text={"register"} job={registerFetch} />
+      <PrimaryButton text={"register"} job={registerFetch} color={'#5DB075'}/>
     </View>
   );
 };
