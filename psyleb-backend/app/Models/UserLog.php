@@ -13,7 +13,7 @@ class UserLog extends Model
     protected $fillable = [
         'mood',
         'notes',
-        'sleep',
+        'hours_slept',
         'user_id'
     ];
 
