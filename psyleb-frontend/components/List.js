@@ -1,21 +1,22 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React from "react";
-import { Avatar } from "react-native-paper";
+import { Avatar, IconButton } from "react-native-paper";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-const List = ({ first, second, third, image}) => {
+const List = ({ first, second, third, image }) => {
   return (
     <View>
-        <View style={styles.providerContainer}>
-          <View style={styles.avatarContainer}>
-            <Avatar.Image size={60} source={image} style={styles.Avatar} />
-          </View>
-          <View style={styles.providerInfoContainer}>
-            <Text style={styles.first}>{first}</Text>
-            <Text style={styles.second}>{second}</Text>
-            <Text style={styles.third}>{third}</Text>
-            <View style={styles.hr}></View>
-          </View>
+      <View style={styles.providerContainer}>
+        <View style={styles.avatarContainer}>
+          <Avatar.Image size={60} source={image} style={styles.Avatar} />
         </View>
+        <View style={styles.providerInfoContainer}>
+          <Text style={styles.first}>{first}</Text>
+          <Text style={styles.second}>{second}</Text>
+          <Text style={styles.third}>{third}</Text>
+          <View style={styles.hr}></View>
+        </View>
+      </View>
     </View>
   );
 };
@@ -37,12 +38,13 @@ const styles = StyleSheet.create({
     fontSize: 17,
   },
   second: {
-    fontStyle: 'italic',
-    color: '#7a7a7a'
+    fontStyle: "italic",
+    color: "#7a7a7a",
+    maxWidth: 250,
   },
   third: {
     maxWidth: 250,
-    marginTop: 10
+    marginTop: 10,
   },
   hr: {
     borderBottomColor: "rgba(0,0,0,0.2)",
