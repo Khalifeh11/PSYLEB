@@ -1,5 +1,5 @@
 import MapView, { Callout, Marker } from "react-native-maps";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Image } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import PrimaryTextInput from "../components/PrimaryTextInput";
 import { useEffect, useState } from "react";
@@ -16,7 +16,9 @@ const Explore = ({ navigation }) => {
   const getProviderAPI = `${IP}/api/user/providers`;
   // const [selectedId, setSelectedId] = useState();
   const [providers, setProviders] = useState();
-  const { selectedProvider, setSelectedProvider } = useContext(selectedProviderContext);
+  const { selectedProvider, setSelectedProvider } = useContext(
+    selectedProviderContext
+  );
 
   const fetchProviders = async () => {
     const config = {
@@ -56,8 +58,7 @@ const Explore = ({ navigation }) => {
   // console.warn(providers && providers.Providers)
   return (
     <View style={styles.container}>
-      <View style={styles.textInput}>
-      </View>
+      <View style={styles.textInput}></View>
       <View style={styles.search}>
         <FontAwesome name="search" size={24} color="black" />
       </View>
@@ -98,15 +99,35 @@ const Explore = ({ navigation }) => {
             contentContainerStyle={containerStyle}
             onPress={() => navigation.navigate("Provider")}
           >
+
             <List
               first={
-                selectedProvider && selectedProvider.first_name + " " + selectedProvider.last_name
+                selectedProvider &&
+                selectedProvider.first_name + " " + selectedProvider.last_name
               }
               second={selectedProvider && selectedProvider.occupation}
               third={selectedProvider && selectedProvider.city}
-              image={require("../assets/profile.jpg")}
+              image={
+                selectedProvider && selectedProvider.profile_pic ? (
+                  <Image
+                    source={{
+                      uri: `${IP}${selectedProvider.profile_pic}`,
+                    }}
+                    style={{ width: 70, height: 70, borderRadius: 70  }}
+                  />
+                ) : (
+                  <Image
+                    source={{
+                      uri: "https://ca.slack-edge.com/T0NC4C7NK-U039444J2UR-g1e75ab176a1-512",
+                    }}
+                    style={{ width: 70, height: 70, borderRadius: 70  }}                  />
+                )
+              }
             />
-            <Button onPress={() => navigation.navigate("Provider")} color={'#5DB075'}>
+            <Button
+              onPress={() => navigation.navigate("Provider")}
+              color={"#5DB075"}
+            >
               Profile
             </Button>
           </Modal>
@@ -119,8 +140,8 @@ const Explore = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
-    height: '100%',
-    width: '100%',
+    height: "100%",
+    width: "100%",
     justifyContent: "flex-end",
     alignItems: "center",
     zIndex: -1,
