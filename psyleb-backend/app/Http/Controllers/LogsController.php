@@ -15,7 +15,7 @@ class LogsController extends Controller
             $validator = Validator::make($request->all(), [
                 'mood' => 'between:1,5|integer',
                 'notes' =>'string|max:500',
-                'hours_slept' => 'integer',
+                'hours_slept' => 'integer|nullable',
             ]);
             if ($validator->fails()) {
                 return response()->json($validator->errors(), 422);
