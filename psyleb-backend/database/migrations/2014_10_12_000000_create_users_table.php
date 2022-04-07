@@ -19,13 +19,15 @@ class CreateUsersTable extends Migration
             $table->string('last_name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
+            $table->string('phone_number')->nullable();
             $table->string('password');
             $table->date('dob')->nullable();
             $table->text('bio')->nullable();
             $table->string('occupation')->nullable();
             $table->string('education')->nullable();
             $table->tinyInteger('gender')->nullable();
-            $table->tinyInteger('user_type')->default(1); // fix with migrate fresh and seed again
+            $table->Integer('user_type')->default(1);
+            $table->string('profile_pic')->nullable(); 
             $table->rememberToken();
             $table->timestamps();
         });
