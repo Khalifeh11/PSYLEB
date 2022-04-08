@@ -29,9 +29,9 @@ class LogsController extends Controller
         }
     }
 
-    public function removeLog(Request $request){
+    public function removeLog($id){
 
-        $log = UserLog::find($request->id);
+        $log = UserLog::find($id);
         if ($log->user_id == Auth::user()->id){
             
             $log->delete();
