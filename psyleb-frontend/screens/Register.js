@@ -57,6 +57,20 @@ const Register = ({ navigation }) => {
     });
   };
 
+  // const handlePhoneNumber = (value) => {
+  //   setData({
+  //     ...data,
+  //     phone_number: value,
+  //   });
+  // };
+
+  // const handleOccupation = (value) => {
+  //   setData({
+  //     ...data,
+  //     occupation: value,
+  //   });
+  // };
+
   const handleClient = () => {
     if (client == "unchecked" && provider == "unchecked") {
       setClient("checked");
@@ -81,9 +95,6 @@ const Register = ({ navigation }) => {
     }
   };
 
-
-
-
   const registerFetch = async () => {
     const newUser = {
       email: data.email,
@@ -96,9 +107,9 @@ const Register = ({ navigation }) => {
     try {
       const response = await axios.post(registerAPI, newUser);
       const dataFetched = response.data;
-      navigation.navigate('Login');
+      navigation.navigate("Login");
     } catch (error) {
-      console.warn(error);
+      console.log(error);
     }
   };
   return (
@@ -108,12 +119,26 @@ const Register = ({ navigation }) => {
         value={data.first_name}
         changeText={handleFirstName}
       />
-      <PrimaryTextInput label={"Last Name"} value={data.last_name} changeText={handleLastName}/>
+      <PrimaryTextInput
+        label={"Last Name"}
+        value={data.last_name}
+        changeText={handleLastName}
+      />
       <PrimaryTextInput
         label={"Email"}
         value={data.email}
         changeText={handleEmail}
       />
+      {/* <PrimaryTextInput
+        label={"Phone Number"}
+        value={data.phone_number}
+        changeText={handlePhoneNumber}
+      />
+      <PrimaryTextInput
+        label={"Occupation"}
+        value={data.occupation}
+        changeText={handleOccupation}
+      /> */}
       <PrimaryTextInput
         label={"Password"}
         isPassword={true}
@@ -142,7 +167,7 @@ const Register = ({ navigation }) => {
           onPress={handleProvider}
         />
       </View>
-      <PrimaryButton text={"register"} job={registerFetch} color={'#5DB075'}/>
+      <PrimaryButton text={"register"} job={registerFetch} color={"#5DB075"} />
     </View>
   );
 };
