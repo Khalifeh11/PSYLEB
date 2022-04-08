@@ -12,8 +12,10 @@ import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import ProfileRoutes from "./ProfileStack";
 import ChatRoutes from "./ChatStack";
+import MyLogs from "../screens/MyLogs";
 import HealthRoutes from "./HealthStack"; 
 import ExploreRoutes from "./ExploreStack";
+
 
 const TabNavigation = () => {
   const Tab = createMaterialBottomTabNavigator();
@@ -36,15 +38,16 @@ const TabNavigation = () => {
         }}
       />
       <Tab.Screen
-        name="Chats"
-        component={ChatRoutes}
-        options={{
-          tabBarLabel: "Chat",
+        name="Logs"
+        component={MyLogs}
+        options={{ 
+          tabBarLabel: "Entries",
           tabBarIcon: ({ color }) => (
-            <Entypo name="chat" size={24} color={color} />
+            <MaterialIcons name="psychology" size={24} color={color} /> 
           ),
         }}
       />
+
       <Tab.Screen
         name="ExploreStack"
         component={ExploreRoutes}
