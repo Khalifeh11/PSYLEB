@@ -1,20 +1,53 @@
 import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "../components/Header";
 import ProfileIconContainer from "../components/ProfileIconContainer";
+import IP from "../globals/IP";
 import { userContext } from "../userContext";
 import { useContext } from "react";
 import { Ionicons } from "@expo/vector-icons";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import SmallButton from "../components/SmallButton";
 
 const Profile = ({ navigation }) => {
   const { currentUser, setCurrentUser } = useContext(userContext);
   const settingsNavigate = () => navigation.navigate("Settings");
+
+  // console.warn (currentUser);
   return (
     <SafeAreaView>
       <View>
         <Header
+          image={
+            currentUser.user.profile_pic ? (
+              <Image
+                source={{
+                  uri: `${IP}${currentUser.user.profile_pic}`,
+                }}
+                style={{
+                  width: 130,
+                  height: 130,
+                  borderRadius: 130 / 2,
+                  borderWidth: 3,
+                  borderColor: "#fff",
+                }}
+              />
+            ) : (
+              <Image
+                source={{
+                  uri: "https://ca.slack-edge.com/T0NC4C7NK-U039444J2UR-g1e75ab176a1-512",
+                }}
+                style={{
+                  width: 130,
+                  height: 130,
+                  borderRadius: 130 / 2,
+                  borderWidth: 3,
+                  borderColor: "#fff",
+                }}
+              />
+            )
+          }
           settings={
             <View style={styles.logoutContainer}>
               <TouchableOpacity onPress={settingsNavigate}>
@@ -34,11 +67,16 @@ const Profile = ({ navigation }) => {
               <Text style={styles.bioHeader}>Bio</Text>
             </View>
             <View style={styles.bioContainer}>
-              <Text style={styles.bio}>
-                Third Year Economics student at the University of beirut.
-                Looking for a life coach to help me in my self discovery
-                journey.
+              <Text
+                style={
+                  currentUser.user.bio == null ? styles.emptyBio : styles.bio
+                }
+              >
+                {currentUser.user.bio == null
+                  ? "A bio would add a really nice touch to your profile"
+                  : currentUser.user.bio}
               </Text>
+              {/* {console.warn(currentUser.user.email)} */}
             </View>
           </View>
           <View style={styles.iconsContainer}>
@@ -101,18 +139,29 @@ const styles = StyleSheet.create({
   bioHeader: {
     fontWeight: "bold",
     fontSize: 17,
+    margin: 10,
   },
 
   bioContainer: {
     backgroundColor: "#fff",
     width: 263,
     borderRadius: 10,
-    padding: 10,
+    padding: 15,
+    minHeight: 100,
   },
+
   bio: {
     fontStyle: "italic",
     fontSize: 15,
+    color: "black",
   },
+
+  emptyBio: {
+    fontStyle: "italic",
+    fontSize: 15,
+    color: "gray",
+  },
+
   iconsContainer: {
     flexDirection: "row",
     marginTop: 30,

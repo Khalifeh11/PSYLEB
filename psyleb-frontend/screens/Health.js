@@ -13,13 +13,13 @@ import { userContext } from "../userContext";
 import { useContext } from "react";
 import { useState } from "react";
 import PrimaryButton from "../components/PrimaryButton";
-import { MaterialIcons } from "@expo/vector-icons";
 import axios from "axios";
 import MoodIcon from "../components/MoodIcon";
 import { format, differenceInHours } from "date-fns";
 import SmallButton from "../components/SmallButton";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import IP from "../globals/IP";
+import { Button } from "react-native-paper";
 
 const Health = ({ navigation }) => {
   // logged in user
@@ -47,9 +47,17 @@ const Health = ({ navigation }) => {
   const [diary, setDiary] = useState();
 
   // sleep and wake states
-  const [sleepTime, setSleepTime] = useState();
-  const [wakeTime, setWakeTime] = useState();
-  const [hoursSlept, sethoursSlept] = useState();
+  // const [sleepTime, setSleepTime] = useState();
+  // const [wakeTime, setWakeTime] = useState();
+  // const [hoursSlept, sethoursSlept] = useState();
+
+  const [sleepData, setSleepData] = useState({
+    sleepTime: "",
+    wakeTime: "",
+    formatted_sleepTime: "",
+    formatted_wakeTime: "",
+    hours_slept: "",
+  });
 
   // date picker visibility states
   const [isSleepPickerVisible, setSleepPickerVisibility] = useState(false);
@@ -73,30 +81,56 @@ const Health = ({ navigation }) => {
 
   // date picker functions
   const handleSleepConfirm = (Sleep) => {
-    // const timeOfSleep = format(Sleep, "hh:mm");
-    setSleepTime(Sleep);
+    // const timeOfSleep = format(Sleep, "hh:mm:ss");
+    // setSleepTime(timeOfSleep);
+    setSleepData({
+      ...sleepData,
+      sleepTime: Sleep,
+      formatted_sleepTime: format(Sleep, "hh:mm a"),
+    });
+
     hideSleepPicker();
+    // console.log("sleep time", timeOfSleep);
   };
 
   const handleWakeConfirm = (Wake) => {
-    // const timeOfWake = format(Wake, "hh:mm");
-    setWakeTime(Wake);
+    // const timeOfWake = format(Wake, "hh:mm:ss");
+    // setWakeTime(timeOfWake);
+    setSleepData({
+      ...sleepData,
+      wakeTime: Wake,
+      formatted_wakeTime: format(Wake, "hh:mm a"),
+    });
+    // console.log("wake time", timeOfWake);
     hideWakePicker();
   };
 
   // function to calculate hours slept
   const calculateHoursOfsleep = () => {
-    if (sleepTime && wakeTime) {
+    // if (sleepTime && wakeTime) {
+    //   const sleepTimeInHours = differenceInHours(
+    //     console.warn(new Date(wakeTime)),
+    //     new Date(sleepTime)
+    //   );
+    //   sethoursSlept(sleepTimeInHours);
+    //   console.log("hours slept", sleepTimeInHours);
+    // }
+
+    if (sleepData.sleepTime && sleepData.wakeTime) {
       const sleepTimeInHours = differenceInHours(
-        new Date(wakeTime),
-        new Date(sleepTime)
+        new Date(sleepData.sleepTime),
+        new Date(sleepData.wakeTime)
       );
-      sethoursSlept(Math.abs(sleepTimeInHours));
+      // sethoursSlept(sleepTimeInHours);
+      setSleepData({
+        ...sleepData,
+        hours_slept: Math.abs(sleepTimeInHours),
+      });
+      // console.warn("skeeo", sleepData.hours_slept);
     }
   };
 
-
-
+  // function to post sleep data to database
   //async function section
   const logMoodAPI = `${IP}/api/logs/addLog`;
   const token = currentUser.access_token;
@@ -106,7 +140,7 @@ const Health = ({ navigation }) => {
     const moodData = {
       mood: moodValue,
       notes: diary,
-      hours_slept: hoursSlept,
+      hours_slept: sleepData.hours_slept,
     };
     const config = {
       headers: {
@@ -115,17 +149,21 @@ const Health = ({ navigation }) => {
     };
     try {
       if (moodData.mood) {
-        console.warn(moodData)
         const response = await axios.post(logMoodAPI, moodData, config);
         const dataFetched = response.data;
+        console.log(dataFetched);
         Alert.alert("Mood logged!");
       } else {
         Alert.alert("Should at least log your mood");
       }
     } catch (error) {
-      console.warn(error);
+      console.log(error);
     }
   };
+
+  // function to get samsung health data
+ // samsung health api 
+ 
 
   return (
     <SafeAreaView>
@@ -136,13 +174,17 @@ const Health = ({ navigation }) => {
               <Text style={styles.headerText}>
                 Hello, {currentUser.user.first_name}!
               </Text>
-              <View style={styles.smallButton}>
-                <SmallButton
-                  text={"Logs"}
-                  job={() => navigation.navigate("MyLogs")}
-                  color={"#5DB075"}
-                />
-              </View>
+              {/* <View style={styles.smallButton}>
+                <Button color={'#5DB075'} onPress={() => navigation.navigate("MyLogs")} uppercase={false}>
+                  <Text style={styles.logsBtn}>Logs</Text>
+                </Button>
+              </View> */}
+
+              {/* <View style={styles.smallButton}>
+                <Button color={'#5DB075'} onPress={() => console.log('hello')} uppercase={false}>
+                  <Text style={styles.logsBtn}>update</Text>
+                </Button>
+              </View> */}
             </View>
 
             <Text style={styles.date}>{formattedDate}</Text>
@@ -198,7 +240,19 @@ const Health = ({ navigation }) => {
             <TextInput
               style={styles.input}
               multiline={true}
-              placeholder={"How are you feeling today?"}
+              placeholder={
+                moodValue == 1
+                  ? "Share your happiness"
+                  : moodValue == 2
+                  ? "Good is better than neutral"
+                  : moodValue == 3
+                  ? "Why neutral?"
+                  : moodValue == 4
+                  ? "Whats bothering you?"
+                  : moodValue == 5
+                  ? "Oh no! Better write down your feelings"
+                  : "How are you feeling today?"
+              }
               onChangeText={(text) => setDiary(text)}
             />
           </View>
@@ -220,14 +274,14 @@ const Health = ({ navigation }) => {
                 title="hours of sleep"
                 job={calculateHoursOfsleep}
                 text={"Calculate Sleep"}
-              />
-              <Text>Slept at {sleepTime}</Text>
-              <Text>Woke up at {wakeTime}</Text>
-              <Text>Slept for {hoursSlept} hours</Text> */}
+              /> */}
+
+              {/* <Text>Woke up at {sleepData.formatted_wakeTime}</Text> */}
+              {/* <Text>Slept for {sleepData.hours_slept} hours</Text> */}
 
               <DateTimePickerModal
                 isVisible={isSleepPickerVisible}
-                mode="time"
+                mode="datetime"
                 onConfirm={(value) => {
                   handleSleepConfirm(value);
                 }}
@@ -235,13 +289,26 @@ const Health = ({ navigation }) => {
               />
               <DateTimePickerModal
                 isVisible={isWakePickerVisible}
-                mode="time"
+                mode="datetime"
+                aa
                 onConfirm={(value) => {
                   handleWakeConfirm(value);
                 }}
                 onCancel={hideWakePicker}
               />
             </View>
+          </View>
+          <View style={styles.sleepTextContainer}>
+            {sleepData.formatted_sleepTime ? (
+              <Text style={styles.sleepTime}>
+                Slept at {sleepData.formatted_sleepTime}
+              </Text>
+            ) : null}
+            {sleepData.formatted_wakeTime ? (
+              <Text style={styles.sleepTime}>
+                Woke up at {sleepData.formatted_wakeTime}
+              </Text>
+            ) : null}
           </View>
           <View style={styles.submitButton}>
             <PrimaryButton text={"submit"} job={logMood} color={"#5DB075"} />
@@ -282,6 +349,11 @@ const styles = StyleSheet.create({
     marginRight: 6,
   },
 
+  logsBtn: {
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+
   moodTextContainer: {
     marginLeft: 10,
   },
@@ -291,13 +363,15 @@ const styles = StyleSheet.create({
 
   input: {
     borderWidth: 1,
-    borderColor: "rgba(93, 176, 117, 1)",
+    borderColor: "#042a2b",
     height: 150,
     width: 300,
     alignSelf: "center",
     borderRadius: 4,
     backgroundColor: "rgba(189, 189, 189, 0.3)",
     padding: 10,
+    fontSize: 17,
+    textAlignVertical: "top",
   },
 
   moodText: {
@@ -307,7 +381,7 @@ const styles = StyleSheet.create({
   },
 
   headerText: {
-    fontSize: 30,
+    fontSize: 26,
     fontWeight: "bold",
     marginLeft: 15,
   },
@@ -324,5 +398,19 @@ const styles = StyleSheet.create({
   submitButton: {
     alignSelf: "center",
     marginTop: 30,
+  },
+
+  sleepTextContainer: {
+    flexDirection: "row",
+    // justifyContent: "space-between",
+    marginTop: 10,
+  },
+  sleepTime: {
+    fontSize: 18,
+    marginLeft: 15,
+  },
+  wakeTime: {
+    fontSize: 18,
+    marginRight: 15,
   },
 });
