@@ -66,11 +66,11 @@ Here's a brief high-level overview of the tech stack PSYLEB uses:
 
 | Home                                                                                | Logs                                                                               |
 | -------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| <img src="./readme/home.gif" /> | <img src="./readme/Logs.jpg" />  |
+| <img src="./readme/home.gif" width='360' height='758'/> | <img src="./readme/Logs.jpg" width='360' height='758'/>  |
 
 | Explore                                                                               | User Profile                                                                               |
 | ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| <img src="./readme/exploreScreen.jpg" /> | <img src="./readme/profile.jpg" /> |
+| <img src="./readme/exploreScreen.jpg" width='360' height='758'/> | <img src="./readme/profile.jpg" width='360' height='758'/> |
 
 
 <br><br>
