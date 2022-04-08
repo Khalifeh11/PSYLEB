@@ -30,7 +30,18 @@ Route::group(['middleware' => ['auth:api']], function ($router) {
         Route::get('/profile', [AuthController::class, 'userProfile']); 
         Route::post('/edit-profile', [UserController::class, 'editProfile']); 
 
+        Route::post('/addPicture', [UserController::class, 'addPicture']); 
+
+
+        // to get all providers on the map
+        Route::get('/providers', [UserController::class, 'getProviders']); 
+
+
+        // to get my providers
         Route::get('/myProviders', [UserController::class, 'getMyProviders']); 
+
+        Route::get('/allUsers', [UserController::class, 'getAllUsers']); 
+
 
         Route::get('/myClients', [UserController::class, 'getMyClients']); 
         
@@ -49,7 +60,8 @@ Route::group(['middleware' => ['auth:api']], function ($router) {
         Route::get('/logs', [UserController::class, 'getMyLogs']); 
         
         Route::get('/clientLogs/{id}', [UserController::class, 'getClientLogs']); 
-        Route::get('/providers', [UserController::class, 'getProviders']); 
+
+        
 
         // get provider reviews from client side
         Route::get('/providerReviews', [UserController::class, 'getProviderReviews']);
@@ -65,7 +77,7 @@ Route::group(['middleware' => ['auth:api']], function ($router) {
 
     Route::group(['prefix' => 'logs'], function () {
         Route::post('/addLog', [LogsController::class, 'addLog']);   
-        Route::delete('/removeLog', [LogsController::class, 'removeLog']);     
+        Route::delete('/remove/{id}', [LogsController::class, 'removeLog']);     
     });
 
     Route::group(['prefix' => 'appointment'], function () {
