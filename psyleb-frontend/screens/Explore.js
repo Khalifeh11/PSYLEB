@@ -58,10 +58,10 @@ const Explore = ({ navigation }) => {
   // console.warn(providers && providers.Providers)
   return (
     <View style={styles.container}>
-      <View style={styles.textInput}></View>
+      {/* <View style={styles.textInput}></View>
       <View style={styles.search}>
         <FontAwesome name="search" size={24} color="black" />
-      </View>
+      </View> */}
       <MapView
         style={styles.map}
         initialRegion={{
@@ -71,6 +71,8 @@ const Explore = ({ navigation }) => {
           longitudeDelta: 0.5,
         }}
       >
+          {/* {console.warn(providers && providers.Providers)} */}
+          {console.log(selectedProvider)}
         {providers &&
           providers.Providers.map((item) => {
             return (
@@ -99,7 +101,7 @@ const Explore = ({ navigation }) => {
             contentContainerStyle={containerStyle}
             onPress={() => navigation.navigate("Provider")}
           >
-
+           
             <List
               first={
                 selectedProvider &&
@@ -113,14 +115,15 @@ const Explore = ({ navigation }) => {
                     source={{
                       uri: `${IP}${selectedProvider.profile_pic}`,
                     }}
-                    style={{ width: 70, height: 70, borderRadius: 70  }}
+                    style={{ width: 70, height: 70, borderRadius: 70 }}
                   />
                 ) : (
                   <Image
                     source={{
                       uri: "https://ca.slack-edge.com/T0NC4C7NK-U039444J2UR-g1e75ab176a1-512",
                     }}
-                    style={{ width: 70, height: 70, borderRadius: 70  }}                  />
+                    style={{ width: 70, height: 70, borderRadius: 70 }}
+                  />
                 )
               }
             />
