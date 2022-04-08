@@ -42,11 +42,11 @@
 
 | Home                                                                                | Logs                                                                               |
 | -------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| <img src="./readme/home.svg" width='450' height='450'/> | <img src="./readme/Logs.svg" width='450' height='450'/>  |
+| <img src="./readme/home.svg" /> | <img src="./readme/Logs.svg" />  |
 
 | Explore                                                                               | User Profile                                                                               |
 | ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| <img src="./readme/explore.svg" width='450' height='450'/> | <img src="./readme/userprofile.svg" width='450' height='450'/> |
+| <img src="./readme/explore.svg" /> | <img src="./readme/userprofile.svg" /> |
 
 <br><br>
 
@@ -66,11 +66,11 @@ Here's a brief high-level overview of the tech stack PSYLEB uses:
 
 | Home                                                                                | Logs                                                                               |
 | -------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| <img src="./readme/home.gif" width='450' height='450'/> | <img src="./readme/Logs.jpg" width='450' height='450'/>  |
+| <img src="./readme/home.gif" /> | <img src="./readme/Logs.jpg" />  |
 
 | Explore                                                                               | User Profile                                                                               |
 | ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| <img src="./readme/exploreScreen.jpg" width='450' height='450'/> | <img src="./readme/profile.jpg" width='450' height='450'/> |
+| <img src="./readme/exploreScreen.jpg" /> | <img src="./readme/profile.jpg" /> |
 
 
 <br><br>
