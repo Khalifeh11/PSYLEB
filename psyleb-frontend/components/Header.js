@@ -1,23 +1,45 @@
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  Alert,
+} from "react-native";
 import React from "react";
-import { Avatar } from "react-native-paper";
-import { Ionicons } from "@expo/vector-icons";
+import { useState, useContext, useEffect } from "react";
+import { userContext } from "../userContext";
+import axios from "axios";
+import IP from "../globals/IP";
+import SmallButton from "../components/SmallButton";
 
-const Header = ({ settings }) => {
+const Header = ({ settings, image }) => {
+  
+  const { currentUser, setCurrentUser } = useContext(userContext);
+
   return (
     <View>
       <View style={styles.header}>
-        <View style={styles.avatarContainer}>
-          <Avatar.Image
-            size={130}
-            source={require("../assets/profile.jpg")}
-            style={styles.avatar}
-          />
-        </View>
-
-        <View>
-          {settings}
-        </View>
+      {/* onPress={pickImage} */}
+          <View style={styles.avatarContainer}>
+            {/* {currentUser.user.profile_pic == null ? 
+            (<Image
+              source={{
+                uri: 'https://ca.slack-edge.com/T0NC4C7NK-U039444J2UR-g1e75ab176a1-512'
+              }} //http://192.168.1.95:8000
+              style={styles.profileImage}
+            /> ) : (
+              <Image
+                source={{
+                  uri: `${IP}${currentUser.user.profile_pic}`,
+                }} 
+                style={styles.profileImage}
+              />
+            )} */}{image}
+          </View>
+       
+        <View>{settings}</View>
+        
       </View>
     </View>
   );
@@ -34,6 +56,15 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginTop: 60,
   },
+
+  profileImage: {
+    width: 130,
+    height: 130,
+    borderRadius: 130,
+    borderColor: '#fff',
+    borderWidth: 3,
+  },
+
   logoutContainer: {
     alignSelf: "flex-end",
     marginTop: -170,
