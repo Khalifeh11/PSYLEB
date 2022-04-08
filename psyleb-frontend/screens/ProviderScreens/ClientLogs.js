@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useContext, useState } from "react";
 import { userContext } from "../../userContext";
 import axios from "axios";
+import IP from "../../globals/IP";
 import LogList from "../../components/LogList";
 import MoodIcon from "../../components/MoodIcon";
 
@@ -14,7 +15,7 @@ const ClientLogs = ({ route }) => {
 //   console.warn(MyClient.id);
 
   const fetchMyClientLogs = async () => {
-    const url = `http://192.168.0.213:8000/api/user/clientLogs/${MyClient.id}`;
+    const url = `${IP}/api/user/clientLogs/${MyClient.id}`;
     const token = currentUser.access_token;
     const config = {
       headers: {

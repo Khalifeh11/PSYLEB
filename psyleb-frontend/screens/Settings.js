@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import IP from "../globals/IP";
 import {
   View,
@@ -17,8 +17,8 @@ import PrimaryTextInput from "../components/PrimaryTextInput";
 import { TextInput } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Button } from "react-native-paper";
+import PhoneInput from "react-native-phone-number-input";
 
 const Settings = () => {
   const { currentUser, setCurrentUser } = useContext(userContext);
@@ -69,11 +69,12 @@ const Settings = () => {
     }
   };
 
+  // profile data update
+
   const token = currentUser.access_token;
 
   const updateProfileAPI = `${IP}/api/user/edit-profile`;
 
-  // profile data update
   const [profiledata, setProfileData] = useState({
     first_name: "",
     last_name: "",
@@ -151,29 +152,24 @@ const Settings = () => {
       ? (userData.email = currentUser.user.email)
       : (userData.email = profiledata.email);
 
-      userData.bio == ""
+    userData.bio == ""
       ? (userData.bio = currentUser.user.bio)
       : (userData.bio = profiledata.bio);
-
 
     userData.phone_number == ""
       ? (userData.phone_number = currentUser.user.phone_number)
       : (userData.phone_number = profiledata.phone_number);
 
     try {
-      if ( currentUser.user.bio == null && userData.bio ==  null) {
+      if (currentUser.user.bio == null && userData.bio == null) {
         userData.bio = "";
       }
       if (
-        (currentUser.user.phone_number == null &&
-          userData.phone_number == null) 
-      ) 
-      
-      {
+        currentUser.user.phone_number == null &&
+        userData.phone_number == null
+      ) {
         Alert.alert("Make sure you have phone number");
-      
-      
-      }else {
+      } else {
         const response = await axios.post(updateProfileAPI, userData, config);
         const dataFetched = response.data;
         setCurrentUser({
@@ -292,6 +288,15 @@ const Settings = () => {
           value={profiledata.phone_number}
           left={<TextInput.Icon name="phone" />}
         />
+        {/* <PhoneInput
+          style={{ width: 100 }}
+          value={profiledata.phone_number}
+          onChangePhoneNumber={handlePhone}
+          defaultCode={"LB"}
+          onChangeText={handlePhone}
+          underlineColor={"black"}
+          selectionColor={"green"}
+        /> */}
       </View>
 
       {/* bio section */}
@@ -362,5 +367,5 @@ const styles = StyleSheet.create({
     marginTop: -30,
   },
 
-  imgBtn: {},
+  // imgBtn: {},
 });
