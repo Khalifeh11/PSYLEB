@@ -1,14 +1,26 @@
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import React from "react";
 import { Avatar, IconButton } from "react-native-paper";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import IP from "../globals/IP";
+import { userContext } from "../userContext";
+import { useContext } from "react";
 
 const List = ({ first, second, third, image }) => {
+  const { currentUser, setCurrentUser } = useContext(userContext);
+
   return (
     <View>
       <View style={styles.providerContainer}>
         <View style={styles.avatarContainer}>
-          <Avatar.Image size={60} source={image} style={styles.Avatar} />
+          {/* <Avatar.Image size={60} source={image} style={styles.Avatar} /> */}
+          {/* <Image
+            source={{
+              uri: `${IP}${currentUser.user.profile_pic}`,
+            }}
+            style={styles.profileImage}
+          /> */}
+          {image}
         </View>
         <View style={styles.providerInfoContainer}>
           <Text style={styles.first}>{first}</Text>
@@ -28,6 +40,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     margin: 10,
   },
+
+  // profileImage: {
+  //   width: 60,
+  //   height: 60,
+  //   borderRadius: 30,
+  //   marginLeft: 10,
+  // },
 
   providerInfoContainer: {
     marginLeft: 10,
@@ -49,7 +68,7 @@ const styles = StyleSheet.create({
   hr: {
     borderBottomColor: "rgba(0,0,0,0.2)",
     borderBottomWidth: 1,
-    marginVertical: 20,
+    marginVertical: 10,
     width: 500,
   },
 });
