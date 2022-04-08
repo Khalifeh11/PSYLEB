@@ -7,7 +7,7 @@ const AppointmentList = ({ first, second, third, image, icon1, icon2 }) => {
     <View>
       <View style={styles.providerContainer}>
         <View style={styles.avatarContainer}>
-          <Avatar.Image size={60} source={image} style={styles.Avatar} />
+          {image}
         </View>
         <View style={styles.providerInfoContainer}>
           <Text style={styles.first}>{first}</Text>
@@ -45,6 +45,11 @@ const styles = StyleSheet.create({
     color: "#7a7a7a",
     maxWidth: 250,
   },
+
+  avatarContainer: {
+  
+  },
+
   third: {
     maxWidth: 250,
     marginTop: 10,
