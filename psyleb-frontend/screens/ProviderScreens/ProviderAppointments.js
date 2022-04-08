@@ -4,6 +4,7 @@ import {
   View,
   FlatList,
   TouchableOpacity,
+  Image
 } from "react-native";
 import React from "react";
 import List from "../../components/List";
@@ -15,6 +16,7 @@ import { useContext } from "react";
 import { useEffect } from "react";
 import axios from "axios";
 import format from "date-fns/format";
+import parseISO from "date-fns/parseISO";
 import { IconButton } from "react-native-paper";
 
 const ProviderAppointments = ({ navigation }) => {
@@ -34,10 +36,8 @@ const ProviderAppointments = ({ navigation }) => {
       const response = await axios.get(url, config);
       const dataFetched = response.data;
       setAppointments(dataFetched);
-      // console.warn(appointments.appointments);
-      // console.warn(dataFetched);
     } catch (error) {
-      console.warn(error, "cant get appointments");
+      console.log(error, "cant get appointments");
     }
   };
 
@@ -89,14 +89,30 @@ const ProviderAppointments = ({ navigation }) => {
         key={(item) => item.id}
         renderItem={({ item }) => (
           <AppointmentList
-            first={item.datetime}
+            first={format(parseISO(item.datetime), "iii, dd MMM ' - Time:' hh:mm a")}
             second={
               item.is_pending === 1
                 ? item.first_name + " " + item.last_name + " (pending)"
                 : item.first_name + " " + item.last_name + " (approved)"
             }
             third={item.city + " Clinic"}
-            image={require("../../assets/profile.jpg")}
+            image={
+              item.profile_pic ? (
+                <Image
+                  source={{
+                    uri: `${IP}${item.profile_pic}`,
+                  }}
+                  style={styles.profileImage}
+                />
+              ) : (
+                <Image
+                  source={{
+                    uri: "https://ca.slack-edge.com/T0NC4C7NK-U039444J2UR-g1e75ab176a1-512",
+                  }}
+                  style={styles.profileImage}
+                />
+              )
+            }
             icon1={
               item.is_pending === 1 ? (
                 <IconButton
@@ -104,17 +120,16 @@ const ProviderAppointments = ({ navigation }) => {
                   icon="checkbox-marked"
                   onPress={() => approveAppointment(item.id)}
                 />
-              ) : (
-                null
-              )
+              ) : null
             }
             icon2={
-              item.is_pending === 1 ? 
-              (<IconButton
-                color={"red"}
-                icon="delete-outline"
-                onPress={() => declineAppointment(item.id)}
-              />) : (null)
+              item.is_pending === 1 ? (
+                <IconButton
+                  color={"red"}
+                  icon="delete-outline"
+                  onPress={() => declineAppointment(item.id)}
+                />
+              ) : null
             }
           />
         )}
@@ -122,5 +137,14 @@ const ProviderAppointments = ({ navigation }) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  profileImage: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    marginLeft: 10,
+  },
+});
 
 export default ProviderAppointments;

@@ -1,4 +1,4 @@
-import { Text, View, FlatList, TouchableOpacity } from "react-native";
+import { Text, View, FlatList, TouchableOpacity, Image, StyleSheet } from "react-native";
 import React from "react";
 import IP from "../../globals/IP";
 import { useState, useContext, useEffect } from "react";
@@ -23,12 +23,11 @@ const MyClients = ({ navigation }) => {
       const dataFetched = response.data;
       setClients(dataFetched);
     } catch (error) {
-      console.warn(error);
+      console.log(error);
     }
   };
 
   useEffect(fetchMyClients, []);
-
   return (
     <View>
       <FlatList
@@ -43,9 +42,25 @@ const MyClients = ({ navigation }) => {
           >
             <List
               first={item.first_name + " " + item.last_name}
-              second={item.occupation}
-              third={item.City}
-              image={require("../../assets/profile.jpg")}
+              second={item.email}
+              third={item.phone_number}
+              image={
+                item.profile_pic ? (
+                  <Image
+                    source={{
+                      uri: `${IP}${item.profile_pic}`,
+                    }}
+                    style={styles.profileImage}
+                  />
+                ) : (
+                  <Image
+                    source={{
+                      uri: "https://ca.slack-edge.com/T0NC4C7NK-U039444J2UR-g1e75ab176a1-512",
+                    }}
+                    style={styles.profileImage}
+                  />
+                )
+              }
             />
           </TouchableOpacity>
         )}
@@ -54,4 +69,12 @@ const MyClients = ({ navigation }) => {
   );
 };
 
+const styles = StyleSheet.create({
+  profileImage: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    marginLeft: 10,
+  },
+});
 export default MyClients;

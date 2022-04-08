@@ -5,6 +5,8 @@ import {
   FlatList,
   ScrollView,
   Alert,
+  Image,
+  Linking
 } from "react-native";
 import React, { useContext, useEffect } from "react";
 import { selectedProviderContext } from "../userContext";
@@ -20,13 +22,13 @@ import IP from "../globals/IP";
 import format from "date-fns/format";
 import SmallButton from "../components/SmallButton";
 import { Dimensions } from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
 
 const ProviderProfile = ({ navigation }) => {
   // getting selected provider from explore page and setting it to context
   const { selectedProvider } = useContext(selectedProviderContext);
   const { currentUser, setCurrentUser } = useContext(userContext);
   const [appointmentDate, setAppointmentDate] = useState();
-  // console.warn(selectedProvider.user_id)
 
   const fetchRequestAppointment = async () => {
     const url = `${IP}/api/appointment/request`;
@@ -44,9 +46,9 @@ const ProviderProfile = ({ navigation }) => {
     try {
       const response = await axios.post(url, data, config);
       const dataFetched = response.data;
-      Alert.alert("Appointment Requested");
+      Alert.alert('Appointment request sent');
     } catch (error) {
-      console.warn(error);
+      console.log(error);
     }
   };
 
@@ -63,23 +65,29 @@ const ProviderProfile = ({ navigation }) => {
   // on cofirm action
   const handleConfirm = (date) => {
     const today = new Date();
-    const formattedDate = format(date, "yyyy-MM-dd HH:mm");
+    const formattedDate = format(date, "yyyy-MM-dd hh:mm");
+    // const AlertDate = format(date, "iii, dd MMM 'at' hh:mm:a");
+
     if (date < today) {
       Alert.alert("Invalid Date", "Please select a future date");
       hideDatePicker();
     } else {
       setAppointmentDate(formattedDate);
+      // Alert.alert("Appointment Date", appointmentDate);
       fetchRequestAppointment();
       hideDatePicker();
     }
   };
 
-  
   // review modal visibility states
   const [visible, setVisible] = React.useState(false);
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
-  const containerStyle = { backgroundColor: "white", padding: 20, marginTop: 100 };
+  const containerStyle = {
+    backgroundColor: "white",
+    padding: 20,
+    marginTop: 100,
+  };
   // getting review text on change from text input in modal
   const [reviewText, setReviewText] = useState("");
 
@@ -87,10 +95,11 @@ const ProviderProfile = ({ navigation }) => {
 
   const fetchAddReview = async () => {
     const url = `${IP}/api/user/addReview`;
+    // console.warn(selectedProvider);
     const token = currentUser.access_token;
     const data = {
-      text : reviewText,
-      provider_id: selectedProvider.id,
+      text: reviewText,
+      provider_id: selectedProvider.user_id,
     };
     const config = {
       headers: {
@@ -106,9 +115,8 @@ const ProviderProfile = ({ navigation }) => {
       console.warn(error);
     }
   };
-
   const fetchGetProviderReviews = async () => {
-    const url = `${IP}/api/user/providerReviews?provider_id=${selectedProvider.id}`;
+    const url = `${IP}/api/user/providerReviews?provider_id=${selectedProvider.user_id}`;
     try {
       const config = {
         headers: {
@@ -124,15 +132,62 @@ const ProviderProfile = ({ navigation }) => {
     }
   };
 
-
   useEffect(fetchGetProviderReviews, []);
 
   const { width, height } = Dimensions.get("window");
 
+  const [cellNumber, setCellNumber] = useState(selectedProvider.phone_number);
+  const [whatsAppMessage, setWhatsAppMessage] = useState(
+    `Hello, ${selectedProvider.first_name}!`
+  );
+  let URL =
+    "whatsapp://send?text=" + whatsAppMessage + "&phone=961" + cellNumber;
+
+  const sendMsg = () => {
+    Linking.openURL(URL)
+      .then((data)=> {
+        console.log('whatsapp opened')
+      })
+      .catch(() => {
+        Alert.alert("Make sure Whatsapp installed on your device");
+      });
+  };
+
   return (
     // <SafeAreaView style={[styles.root, { height: height, width: width }]}>
+
     <SafeAreaView>
-    <Header />
+      <Header
+        image={
+          selectedProvider.profile_pic ? (
+            <Image
+              source={{
+                uri: `${IP}${selectedProvider.profile_pic}`,
+              }}
+              style={{
+                width: 130,
+                height: 130,
+                borderRadius: 130,
+                borderWidth: 3,
+                borderColor: "#fff",
+              }}
+            />
+          ) : (
+            <Image
+              source={{
+                uri: "https://ca.slack-edge.com/T0NC4C7NK-U039444J2UR-g1e75ab176a1-512",
+              }}
+              style={{
+                width: 130,
+                height: 130,
+                borderRadius: 130,
+                borderWidth: 3,
+                borderColor: "#fff",
+              }}
+            />
+          )
+        }
+      />
       <View style={styles.usernameContainer}>
         <Text style={styles.username}>
           {selectedProvider.first_name} {selectedProvider.last_name}
@@ -141,6 +196,8 @@ const ProviderProfile = ({ navigation }) => {
 
       <View style={styles.buttonsContainer}>
         <View style={styles.appointmentButton}>
+          {/* <FontAwesome name="calendar" size={24} color="black" style={{alignSelf: 'center'}} onPress={showDatePicker}/> */}
+
           <MediumButton text={"Request Appointment"} job={showDatePicker} />
           <DateTimePickerModal
             isVisible={isDatePickerVisible}
@@ -151,7 +208,7 @@ const ProviderProfile = ({ navigation }) => {
           />
         </View>
         <View style={styles.messageButton}>
-          <MediumButton text={"Message"} />
+          <MediumButton text={"Message"} job={sendMsg}/>
         </View>
       </View>
 
@@ -165,9 +222,9 @@ const ProviderProfile = ({ navigation }) => {
               </View>
               <View style={styles.bioContainer}>
                 <Text style={styles.bio}>
-                  Clinical Psychologist with over 10 years of experience in the
-                  medical field. Experience in working with adults and
-                  teenagers. Specialized in mood disorders.
+                  {selectedProvider.bio
+                    ? selectedProvider.bio
+                    : "This provider has no bio"}
                 </Text>
               </View>
             </View>
@@ -178,23 +235,37 @@ const ProviderProfile = ({ navigation }) => {
                 </View>
                 <View style={styles.addReviewButtonContainer}>
                   <Provider>
-                    <SmallButton
-                      text={"Add"}
+                    <Button
                       color={"#5DB075"}
-                      job={showModal}
-                    />
+                      onPress={showModal}
+                      uppercase={"True"}
+                    >
+                      <Text style={styles.addReviewBtn}>Add </Text>
+                    </Button>
                   </Provider>
                 </View>
               </View>
+              {/* {console.warn(providerReviews && providerReviews.reviews)} */}
               <View>
-                {providerReviews && providerReviews.reviews.map((item) => (
-                  <View key={item.id}>
-                    <View style={styles.ReviewContainer}>
-                      <Text style={styles.reviewAuthor}>{item.first_name + ' ' + item.last_name}</Text>
-                      <Text style={styles.Review}>{item.text}</Text>
-                    </View>
+                {providerReviews && providerReviews.reviews == "" ? (
+                  <View style={styles.emptyReviewsState}>
+                    <Text style={styles.emptyReviewsText}>
+                      Be the first one to review
+                    </Text>
                   </View>
-                ))}
+                ) : (
+                  providerReviews &&
+                  providerReviews.reviews.map((item) => (
+                    <View key={item.id}>
+                      <View style={styles.ReviewContainer}>
+                        <Text style={styles.reviewAuthor}>
+                          {item.first_name + " " + item.last_name}
+                        </Text>
+                        <Text style={styles.Review}>{item.text}</Text>
+                      </View>
+                    </View>
+                  ))
+                )}
               </View>
             </View>
           </View>
@@ -218,7 +289,7 @@ const ProviderProfile = ({ navigation }) => {
           onChangeText={(text) => setReviewText(text)}
         />
         <View style={styles.buttonInsideModal}>
-          <SmallButton text={"add"} color={"#5DB075"} job={fetchAddReview}/>
+          <SmallButton text={"add"} color={"#5DB075"} job={fetchAddReview} />
         </View>
       </Modal>
     </SafeAreaView>
@@ -275,6 +346,7 @@ const styles = StyleSheet.create({
     width: 300,
     borderRadius: 10,
     padding: 10,
+    minHeight: 100,
   },
 
   bio: {
@@ -330,5 +402,24 @@ const styles = StyleSheet.create({
 
   ScrollView: {
     marginBottom: 375,
+  },
+
+  emptyReviewsState: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 30,
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    minHeight: 100,
+  },
+
+  emptyReviewsText: {
+    fontSize: 18,
+    fontStyle: "italic",
+  },
+
+  addReviewBtn: {
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });

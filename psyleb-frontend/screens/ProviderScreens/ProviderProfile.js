@@ -1,11 +1,13 @@
 import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "../../components/Header";
 import { useNavigation } from "@react-navigation/native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { userContext } from "../../userContext";
 import { useContext } from "react";
+import IP from "../../globals/IP";
+import { Button } from 'react-native-paper';
 
 import ProfileIconContainer from "../../components/ProfileIconContainer";
 // import ProviderSettings from "./ProviderSettings";
@@ -20,6 +22,34 @@ const ProviderProfile = ({ navigation }) => {
     <SafeAreaView>
       <View>
         <Header
+          image={
+            currentUser.user.profile_pic ? (
+              <Image
+                source={{
+                  uri: `${IP}${currentUser.user.profile_pic}`,
+                }}
+                style={{
+                  width: 130,
+                  height: 130,
+                  borderRadius: 130 / 2,
+                  borderWidth: 3,
+                  borderColor: "#fff",
+                }}
+              />
+            ) : (
+              <Image
+                source={{
+                  uri: "https://ca.slack-edge.com/T0NC4C7NK-U039444J2UR-g1e75ab176a1-512",
+                }}
+                style={{
+                  width: 130,
+                  height: 130,
+                  borderRadius: 130 / 2,
+                  borderWidth: 3,
+                  borderColor: "#fff",
+                }}              />
+            )
+          }
           settings={
             <View style={styles.logoutContainer}>
               <TouchableOpacity onPress={settingsNavigate}>
@@ -30,12 +60,28 @@ const ProviderProfile = ({ navigation }) => {
         />
         <View style={styles.userContainer}>
           <View style={styles.usernameContainer}>
-            <Text style={styles.username}>{currentUser.user.first_name + ' ' + currentUser.user.last_name}</Text>
+            <Text style={styles.username}>
+              {currentUser.user.first_name + " " + currentUser.user.last_name}
+            </Text>
+            <View style={styles.smallButton}>
+              <Button color={'#5DB075'} onPress={() => navigation.navigate("MyReviews")} uppercase={true}>
+                  Reviews
+                </Button>
+              
+            </View>
+          </View>
+          <View style={styles.bioHeaderContainer}>
+            <Text style={styles.bioHeader}>Bio</Text>
           </View>
           <View style={styles.bioContainer}>
-            <Text style={styles.bio}>
-              Clinical Psychologist specialized in treating mood disorders with
-              an experience of 10 years in the field.
+            <Text
+              style={
+                currentUser.user.bio == null ? styles.emptyBio : styles.bio
+              }
+            >
+              {currentUser.user.bio == null
+                ? "A bio would add a really nice touch to your profile"
+                : currentUser.user.bio}
             </Text>
           </View>
           <View style={styles.iconsContainer}>
@@ -50,7 +96,7 @@ const ProviderProfile = ({ navigation }) => {
               job={() => navigation.navigate("MyClients")}
             />
           </View>
-          <View style={styles.iconsContainer}>
+          {/* <View style={styles.iconsContainer}>
             <ProfileIconContainer
               icon={"chat"}
               caption={"My Chats"}
@@ -61,7 +107,7 @@ const ProviderProfile = ({ navigation }) => {
               caption={"Reviews"}
               job={() => navigation.navigate("MyReviews")}
             />
-          </View>
+          </View> */}
         </View>
       </View>
     </SafeAreaView>
@@ -114,11 +160,25 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   bioContainer: {
-    width: 223,
+    width: 263,
+    backgroundColor: "#fff",
+    marginTop: 10,
+    borderRadius: 10,
+    padding: 15,
+    minHeight: 100,
   },
+
   bio: {
     fontStyle: "italic",
+    fontSize: 15,
   },
+
+  emptyBio: {
+    fontStyle: "italic",
+    fontSize: 15,
+    color: "gray",
+  },
+
   iconsContainer: {
     flexDirection: "row",
     marginTop: 30,
@@ -132,5 +192,16 @@ const styles = StyleSheet.create({
   chatContainer: {
     marginTop: 20,
     marginLeft: 30,
+  },
+
+  bioHeaderContainer: {
+    alignSelf: "flex-start",
+    marginLeft: 60,
+  },
+
+  bioHeader: {
+    fontWeight: "bold",
+    fontSize: 17,
+    marginTop: 10,
   },
 });

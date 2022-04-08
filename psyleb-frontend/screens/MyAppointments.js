@@ -56,19 +56,24 @@ const MyAppointments = ({ navigation }) => {
           //format(todayDate, "iii, dd MMM")
           <List
             // first={format(todayDate, "iii, dd MMM")}
-            first={format(parseISO(item.datetime), "iii, dd MMM '- Time:' hh:mm a")}
+            first={format(parseISO(item.datetime), "iii, dd MMM '- Time:' hh:mm 'PM'")}
             second={
               (item.is_pending == 1
                 ? item.city + " (pending)"
                 : item.city)
             }
             third={item.first_name + " " + item.last_name}
-            image={item.profile_pic ? <Image
+
+
+            image={
+              item.profile_pic ? 
+              <Image
               source={{
                 uri: `${IP}${item.profile_pic}`
               }}
               style={styles.profileImage}
-            /> : <Image
+            /> 
+            : <Image
             source={{
               uri:"https://ca.slack-edge.com/T0NC4C7NK-U039444J2UR-g1e75ab176a1-512",
             }}

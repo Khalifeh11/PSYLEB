@@ -1,6 +1,8 @@
 import {
   View,
   FlatList,
+  Image, 
+  StyleSheet,
 } from "react-native";
 import React from "react";
 import { useState } from "react";
@@ -28,7 +30,6 @@ const MyReviews = () => {
       const response = await axios.get(url, config);
       const dataFetched = response.data;
       setReviews(dataFetched);
-      // console.warn(reviews)
     } catch (error) {
       console.warn(error);
     }
@@ -37,7 +38,6 @@ const MyReviews = () => {
 
 
   useEffect(fetchMyReviews, []);
-
   return (
     <View>
       <FlatList
@@ -49,13 +49,38 @@ const MyReviews = () => {
             first={item.first_name + " " + item.last_name}
             second={item.text}
             third={item.text}
-            image={require("../../assets/profile.jpg")}
+            image={
+              item.profile_pic ? (
+                <Image
+                  source={{
+                    uri: `${IP}${item.profile_pic}`,
+                  }}
+                  style={styles.profileImage}
+                />
+              ) : (
+                <Image
+                  source={{
+                    uri: "https://ca.slack-edge.com/T0NC4C7NK-U039444J2UR-g1e75ab176a1-512",
+                  }}
+                  style={styles.profileImage}
+                />
+              )
+            }
           />
         )}
       />
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  profileImage: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    marginLeft: 10,
+  },
+});
 
 export default MyReviews;
 
