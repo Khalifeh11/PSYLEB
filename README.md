@@ -72,6 +72,11 @@ Here's a brief high-level overview of the tech stack PSYLEB uses:
 | ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
 | <img src="./readme/exploreScreen.jpg" width='360' height='758'/> | <img src="./readme/profile.jpg" width='360' height='758'/> |
 
+Mood Chart                                                                               | Edit Profile                                                                               |
+| ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| <img src="./readme/chart.jpg" width='360' height='758'/> | <img src="./readme/edit.jpg" width='360' height='758'/> 
+
+
 
 <br><br>
 <img src="./readme/title6.svg"/>
