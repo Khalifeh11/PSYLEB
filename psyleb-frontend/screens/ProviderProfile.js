@@ -6,7 +6,7 @@ import {
   ScrollView,
   Alert,
   Image,
-  Linking
+  Linking,
 } from "react-native";
 import React, { useContext, useEffect } from "react";
 import { selectedProviderContext } from "../userContext";
@@ -28,6 +28,7 @@ const ProviderProfile = ({ navigation }) => {
   // getting selected provider from explore page and setting it to context
   const { selectedProvider } = useContext(selectedProviderContext);
   const { currentUser, setCurrentUser } = useContext(userContext);
+
   const [appointmentDate, setAppointmentDate] = useState();
 
   const fetchRequestAppointment = async () => {
@@ -46,7 +47,7 @@ const ProviderProfile = ({ navigation }) => {
     try {
       const response = await axios.post(url, data, config);
       const dataFetched = response.data;
-      Alert.alert('Appointment request sent');
+      Alert.alert("Appointment request sent");
     } catch (error) {
       console.log(error);
     }
@@ -66,18 +67,17 @@ const ProviderProfile = ({ navigation }) => {
   const handleConfirm = (date) => {
     const today = new Date();
     const formattedDate = format(date, "yyyy-MM-dd hh:mm");
-    // const AlertDate = format(date, "iii, dd MMM 'at' hh:mm:a");
-
     if (date < today) {
       Alert.alert("Invalid Date", "Please select a future date");
       hideDatePicker();
     } else {
       setAppointmentDate(formattedDate);
-      // Alert.alert("Appointment Date", appointmentDate);
-      fetchRequestAppointment();
       hideDatePicker();
     }
   };
+
+  useEffect(fetchRequestAppointment, [appointmentDate]);
+
 
   // review modal visibility states
   const [visible, setVisible] = React.useState(false);
@@ -145,8 +145,8 @@ const ProviderProfile = ({ navigation }) => {
 
   const sendMsg = () => {
     Linking.openURL(URL)
-      .then((data)=> {
-        console.log('whatsapp opened')
+      .then((data) => {
+        console.log("whatsapp opened");
       })
       .catch(() => {
         Alert.alert("Make sure Whatsapp installed on your device");
@@ -208,7 +208,7 @@ const ProviderProfile = ({ navigation }) => {
           />
         </View>
         <View style={styles.messageButton}>
-          <MediumButton text={"Message"} job={sendMsg}/>
+          <MediumButton text={"Message"} job={sendMsg} />
         </View>
       </View>
 

@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   Alert,
 } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { userContext } from "../userContext";
 import { useContext } from "react";
@@ -46,11 +46,6 @@ const Health = ({ navigation }) => {
   // diary states
   const [diary, setDiary] = useState();
 
-  // sleep and wake states
-  // const [sleepTime, setSleepTime] = useState();
-  // const [wakeTime, setWakeTime] = useState();
-  // const [hoursSlept, sethoursSlept] = useState();
-
   const [sleepData, setSleepData] = useState({
     sleepTime: "",
     wakeTime: "",
@@ -81,54 +76,40 @@ const Health = ({ navigation }) => {
 
   // date picker functions
   const handleSleepConfirm = (Sleep) => {
-    // const timeOfSleep = format(Sleep, "hh:mm:ss");
-    // setSleepTime(timeOfSleep);
     setSleepData({
       ...sleepData,
       sleepTime: Sleep,
       formatted_sleepTime: format(Sleep, "hh:mm a"),
     });
-
     hideSleepPicker();
-    // console.log("sleep time", timeOfSleep);
   };
 
   const handleWakeConfirm = (Wake) => {
-    // const timeOfWake = format(Wake, "hh:mm:ss");
-    // setWakeTime(timeOfWake);
     setSleepData({
       ...sleepData,
       wakeTime: Wake,
       formatted_wakeTime: format(Wake, "hh:mm a"),
     });
-    // console.log("wake time", timeOfWake);
     hideWakePicker();
   };
 
   // function to calculate hours slept
   const calculateHoursOfsleep = () => {
-    // if (sleepTime && wakeTime) {
-    //   const sleepTimeInHours = differenceInHours(
-    //     console.warn(new Date(wakeTime)),
-    //     new Date(sleepTime)
-    //   );
-    //   sethoursSlept(sleepTimeInHours);
-    //   console.log("hours slept", sleepTimeInHours);
-    // }
-
     if (sleepData.sleepTime && sleepData.wakeTime) {
       const sleepTimeInHours = differenceInHours(
-        new Date(sleepData.sleepTime),
-        new Date(sleepData.wakeTime)
+        new Date(sleepData.wakeTime),
+        new Date(sleepData.sleepTime)
       );
-      // sethoursSlept(sleepTimeInHours);
       setSleepData({
         ...sleepData,
         hours_slept: Math.abs(sleepTimeInHours),
       });
-      // console.warn("skeeo", sleepData.hours_slept);
     }
   };
+
+  useEffect(() => {
+    calculateHoursOfsleep();
+  }, [sleepData.sleepTime, sleepData.wakeTime]);
 
   // function to post sleep data to database
   //async function section
@@ -136,7 +117,6 @@ const Health = ({ navigation }) => {
   const token = currentUser.access_token;
 
   const logMood = async () => {
-    calculateHoursOfsleep();
     const moodData = {
       mood: moodValue,
       notes: diary,
@@ -151,7 +131,6 @@ const Health = ({ navigation }) => {
       if (moodData.mood) {
         const response = await axios.post(logMoodAPI, moodData, config);
         const dataFetched = response.data;
-        console.log(dataFetched);
         Alert.alert("Mood logged!");
       } else {
         Alert.alert("Should at least log your mood");
@@ -161,9 +140,6 @@ const Health = ({ navigation }) => {
     }
   };
 
-  // function to get samsung health data
- // samsung health api 
- 
 
   return (
     <SafeAreaView>
@@ -174,17 +150,6 @@ const Health = ({ navigation }) => {
               <Text style={styles.headerText}>
                 Hello, {currentUser.user.first_name}!
               </Text>
-              {/* <View style={styles.smallButton}>
-                <Button color={'#5DB075'} onPress={() => navigation.navigate("MyLogs")} uppercase={false}>
-                  <Text style={styles.logsBtn}>Logs</Text>
-                </Button>
-              </View> */}
-
-              {/* <View style={styles.smallButton}>
-                <Button color={'#5DB075'} onPress={() => console.log('hello')} uppercase={false}>
-                  <Text style={styles.logsBtn}>update</Text>
-                </Button>
-              </View> */}
             </View>
 
             <Text style={styles.date}>{formattedDate}</Text>
@@ -270,15 +235,6 @@ const Health = ({ navigation }) => {
                 text={"When did you wake up?"}
                 color={"#042a2b"}
               />
-              {/* <PrimaryButton
-                title="hours of sleep"
-                job={calculateHoursOfsleep}
-                text={"Calculate Sleep"}
-              /> */}
-
-              {/* <Text>Woke up at {sleepData.formatted_wakeTime}</Text> */}
-              {/* <Text>Slept for {sleepData.hours_slept} hours</Text> */}
-
               <DateTimePickerModal
                 isVisible={isSleepPickerVisible}
                 mode="datetime"
