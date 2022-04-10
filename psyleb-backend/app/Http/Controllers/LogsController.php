@@ -46,4 +46,14 @@ class LogsController extends Controller
             ], 401);
         }   
     }
+
+    public function logsChart(){
+        $user = Auth::user()->id;
+        $logs = UserLog::where('user_id', $user)->groupBy('mood')->get(['mood', \DB::raw('count(mood) as count')]);
+
+        return response()->json([
+            'logs' => $logs
+        ], 200);
+       
+    }
 }
