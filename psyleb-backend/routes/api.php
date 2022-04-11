@@ -77,7 +77,8 @@ Route::group(['middleware' => ['auth:api']], function ($router) {
 
     Route::group(['prefix' => 'logs'], function () {
         Route::post('/addLog', [LogsController::class, 'addLog']);   
-        Route::delete('/remove/{id}', [LogsController::class, 'removeLog']);     
+        Route::delete('/remove/{id}', [LogsController::class, 'removeLog']);  
+        Route::get('/chart', [LogsController::class, 'logsChart']);   
     });
 
     Route::group(['prefix' => 'appointment'], function () {
