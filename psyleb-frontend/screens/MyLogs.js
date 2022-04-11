@@ -1,4 +1,11 @@
-import { StyleSheet, Text, View, FlatList, SafeAreaView } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  SafeAreaView,
+  Alert,
+} from "react-native";
 import React from "react";
 import LogList from "../components/LogList";
 import { useEffect, useState, useContext } from "react";
@@ -8,6 +15,7 @@ import IP from "../globals/IP";
 import { userContext } from "../userContext";
 import { NavigationContainer } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
+import { Button } from "react-native-paper";
 
 const MyLogs = ({ navigation }) => {
   const [logs, setLogs] = useState();
@@ -29,7 +37,6 @@ const MyLogs = ({ navigation }) => {
   };
 
   const removeLog = async (id) => {
-
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -39,8 +46,10 @@ const MyLogs = ({ navigation }) => {
     try {
       const response = await axios.delete(removeLogAPI, config);
       const dataFetched = response.data;
-      fetchLogs();
-      // console.warn('hello')
+      if (dataFetched) {
+        Alert.alert("Log Deleted");
+        fetchLogs();
+      }
     } catch (error) {
       console.warn(error, "cant remove log");
     }
@@ -55,6 +64,14 @@ const MyLogs = ({ navigation }) => {
 
   return (
     <SafeAreaView>
+      <Button
+        style={{ marginTop: 40, marginBottom: 20, alignSelf: "flex-end" }}
+        onPress={() => {
+          navigation.navigate("MyCharts", logs);
+        }}
+      >
+        <Text style={{ color: "green" }}>Stats</Text>
+      </Button>
       <View style={styles.container}>
         <FlatList
           data={logs}
@@ -73,7 +90,15 @@ const MyLogs = ({ navigation }) => {
                   ? "Bad"
                   : "Awful"
               }
-              deleteIcon={<MaterialIcons name="delete" size={24} color="red" onPress={()=>removeLog(item.id)} style={styles.deleteIcon}/>}
+              deleteIcon={
+                <MaterialIcons
+                  name="delete"
+                  size={24}
+                  color="red"
+                  onPress={() => removeLog(item.id)}
+                  style={styles.deleteIcon}
+                />
+              }
               second={item.notes === null ? "No notes" : item.notes}
               third={
                 item.hours_slept === null
@@ -121,10 +146,4 @@ const MyLogs = ({ navigation }) => {
 
 export default MyLogs;
 
-const styles = StyleSheet.create({
-  container: {
-    marginTop: 30,
-  },
-
-
-});
+const styles = StyleSheet.create({});

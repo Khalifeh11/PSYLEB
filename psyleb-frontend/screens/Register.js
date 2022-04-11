@@ -11,8 +11,15 @@ import axios from "axios";
 const Register = ({ navigation }) => {
   const registerAPI = `${IP}/api/auth/register`;
 
+  // state to control the checkbox
   const [client, setClient] = useState("unchecked");
   const [provider, setProvider] = useState("unchecked");
+
+  // states to show hide password and confirm password
+  const[passwordHidden, setPasswordHidden] = useState(true);
+  const[confirmHidden, setConfirmHidden] = useState(true);
+
+
   const [data, setData] = useState({
     email: "",
     first_name: "",
@@ -57,23 +64,10 @@ const Register = ({ navigation }) => {
     });
   };
 
-  // const handlePhoneNumber = (value) => {
-  //   setData({
-  //     ...data,
-  //     phone_number: value,
-  //   });
-  // };
-
-  // const handleOccupation = (value) => {
-  //   setData({
-  //     ...data,
-  //     occupation: value,
-  //   });
-  // };
-
   const handleClient = () => {
-    if (client == "unchecked" && provider == "unchecked") {
+    if (client == "unchecked") {
       setClient("checked");
+      setProvider("unchecked");
       setData({
         ...data,
         user_type: 1,
@@ -84,8 +78,9 @@ const Register = ({ navigation }) => {
   };
 
   const handleProvider = () => {
-    if (provider == "unchecked" && client == "unchecked") {
+    if (provider == "unchecked") {
       setProvider("checked");
+      setClient("unchecked");
       setData({
         ...data,
         user_type: 2,
@@ -129,28 +124,20 @@ const Register = ({ navigation }) => {
         value={data.email}
         changeText={handleEmail}
       />
-      {/* <PrimaryTextInput
-        label={"Phone Number"}
-        value={data.phone_number}
-        changeText={handlePhoneNumber}
-      />
-      <PrimaryTextInput
-        label={"Occupation"}
-        value={data.occupation}
-        changeText={handleOccupation}
-      /> */}
       <PrimaryTextInput
         label={"Password"}
-        isPassword={true}
+        isPassword={passwordHidden}
         changeText={handlePassword}
-        icon={<TextInput.Icon name="eye" />}
+        icon={<TextInput.Icon name="eye" onPress={
+          ()=> setPasswordHidden(!passwordHidden)}/>}
         value={data.password}
       />
       <PrimaryTextInput
         label={"Confirm Password"}
-        isPassword={true}
+        isPassword={confirmHidden}
         changeText={handleConfirm}
-        icon={<TextInput.Icon name="eye" />}
+        icon={<TextInput.Icon name="eye" onPress={
+          ()=> setConfirmHidden(!confirmHidden)}/>}
         value={data.password_confirmation}
       />
       <View style={styles.checkbox}>

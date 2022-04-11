@@ -18,7 +18,6 @@ import { TextInput } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { Button } from "react-native-paper";
-import PhoneInput from "react-native-phone-number-input";
 
 const Settings = () => {
   const { currentUser, setCurrentUser } = useContext(userContext);
