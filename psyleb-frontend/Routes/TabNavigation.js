@@ -15,6 +15,7 @@ import ChatRoutes from "./ChatStack";
 import MyLogs from "../screens/MyLogs";
 import HealthRoutes from "./HealthStack"; 
 import ExploreRoutes from "./ExploreStack";
+import EntriesRoutes from "./EntriesStack";
 
 
 const TabNavigation = () => {
@@ -39,7 +40,7 @@ const TabNavigation = () => {
       />
       <Tab.Screen
         name="Logs"
-        component={MyLogs}
+        component={EntriesRoutes}
         options={{ 
           tabBarLabel: "Entries",
           tabBarIcon: ({ color }) => (

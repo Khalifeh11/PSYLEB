@@ -45,9 +45,11 @@ export default function Login({ navigation }) {
       const dataFetched = response.data;
       setCurrentUser(dataFetched);
     } catch (error) {
-      console.warn(error)
+      Alert.alert("Error", "Wrong email or password");
     }
   };
+
+  const[passwordHidden, setPasswordHidden] = useState(true);
 
   return (
     <SafeAreaView>
@@ -63,8 +65,10 @@ export default function Login({ navigation }) {
           label={"Password"}
           value={data.password}
           changeText={handlePassword}
-          isPassword={true}
-          icon={<TextInput.Icon name="eye" />}
+          isPassword={passwordHidden}
+          icon={<TextInput.Icon name="eye" onPress={
+            ()=> setPasswordHidden(!passwordHidden)
+          }/>}
         />
         <PrimaryButton job={loginFetch} text="login" color={'#5DB075'}/>
         <Text style={styles.signupText}>
