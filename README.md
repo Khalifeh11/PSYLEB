@@ -74,7 +74,11 @@ Here's a brief high-level overview of the tech stack PSYLEB uses:
 
 Mood Chart                                                                               | Edit Profile                                                                               |
 | ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| <img src="./readme/chart1.jpg" width='360' height='758'/> | <img src="./readme/edit.jpg" width='360' height='758'/> 
+| <img src="./readme/chart2.jpg" width='360' height='758'/> | <img src="./readme/edit.jpg" width='360' height='758'/> 
+
+Mood Chart                                                                               | Edit Profile                                                                               |
+| ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| <img src="./readme/providerProfile.jpg" width='360' height='758'/> | <img src="./readme/provider.gif" width='360' height='758'/> 
 
 
 
